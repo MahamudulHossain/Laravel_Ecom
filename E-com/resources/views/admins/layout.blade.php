@@ -33,7 +33,7 @@
           <div class="header-mobile__bar">
               <div class="container-fluid">
                   <div class="header-mobile-inner">
-                      <a class="logo" href="dashboard">
+                      <a class="logo" href="{{url('admins/dashboard')}}">
                           <img src="{{asset('admin/assets/images/icon/logo.png')}}" />
                       </a>
                       <button class="hamburger hamburger--slider" type="button">
@@ -46,11 +46,11 @@
               <div class="container-fluid">
                   <ul class="navbar-mobile__list list-unstyled">
                       <li class="has-sub">
-                          <a class="js-arrow" href="dashboard">
+                          <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                       </li>
                       <li>
-                          <a href="category">
+                          <a href="{{url('admins/category')}}">
                               <i class="fas fa-table"></i>Category</a>
                       </li>
                   </ul>
@@ -62,7 +62,7 @@
       <!-- MENU SIDEBAR-->
       <aside class="menu-sidebar d-none d-lg-block">
           <div class="logo">
-            <a href="dashboard">
+            <a href="{{url('admins/dashboard')}}">
                 <img src="{{asset('admin/assets/images/icon/logo.png')}}" />
             </a>
           </div>
@@ -70,11 +70,11 @@
               <nav class="navbar-sidebar">
                   <ul class="list-unstyled navbar__list">
                       <li class="has-sub">
-                          <a class="js-arrow" href="dashboard">
+                          <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                       </li>
                       <li>
-                          <a href="category">
+                          <a href="{{url('admins/category')}}">
                               <i class="fas fa-table"></i>Category</a>
                       </li>
                   </ul>
@@ -107,7 +107,7 @@
                                               </div>
                                           </div>
                                           <div class="account-dropdown__footer">
-                                              <a href="logout">
+                                              <a href="{{url('admins/logout')}}">
                                                   <i class="zmdi zmdi-power"></i>Logout</a>
                                           </div>
                                       </div>
