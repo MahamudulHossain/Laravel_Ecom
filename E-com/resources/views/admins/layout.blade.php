@@ -45,13 +45,17 @@
           <nav class="navbar-mobile">
               <div class="container-fluid">
                   <ul class="navbar-mobile__list list-unstyled">
-                      <li class="has-sub">
+                      <li class="@yield('dashboard_active')">
                           <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                       </li>
-                      <li>
+                      <li class="@yield('category_active')">
                           <a href="{{url('admins/category')}}">
-                              <i class="fas fa-table"></i>Category</a>
+                              <i class="fa fa-list"></i>Category</a>
+                      </li>
+                      <li class="@yield('coupon_active')">
+                          <a href="{{url('admins/coupon')}}">
+                              <i class="fa fa-tags"></i>Coupon</a>
                       </li>
                   </ul>
               </div>
@@ -69,13 +73,17 @@
           <div class="menu-sidebar__content js-scrollbar1">
               <nav class="navbar-sidebar">
                   <ul class="list-unstyled navbar__list">
-                      <li class="has-sub">
+                      <li class="@yield('dashboard_active')">
                           <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                       </li>
-                      <li>
+                      <li class="@yield('category_active')">
                           <a href="{{url('admins/category')}}">
-                              <i class="fas fa-table"></i>Category</a>
+                              <i class="fa fa-list"></i>Category</a>
+                      </li>
+                      <li class="@yield('coupon_active')">
+                          <a href="{{url('admins/coupon')}}">
+                              <i class="fa fa-tags"></i>Coupon</a>
                       </li>
                   </ul>
               </nav>

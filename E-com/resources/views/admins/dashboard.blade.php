@@ -1,7 +1,7 @@
 @extends('admins.layout')
 
 @section('title','DashBoard')
-
+@section('dashboard_active','active')
 @section('content')
 
 <div class="row">

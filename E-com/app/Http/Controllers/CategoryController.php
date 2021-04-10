@@ -59,7 +59,14 @@ class CategoryController extends Controller
       $request->session()->flash('message','Category Deleted Successfully');
       return redirect('/admins/category');
     }
+    public function manage_category_status(Request $request,$status,$id)
+    {
 
-
+      $result = Category::find($id);
+      $result->status = $status;
+      $result->save();
+      $request->session()->flash('message','Category Status Updated');
+      return redirect('/admins/category');
+    }
 
 }
