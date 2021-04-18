@@ -63,7 +63,11 @@
                       </li>
                       <li class="@yield('size_active')">
                           <a href="{{url('admins/size')}}">
-                              <i class="fas fa-paint-brush"></i>Size</a>
+                              <i class="fa fa-scribd"></i>Size</a>
+                      </li>
+                      <li class="@yield('product_active')">
+                          <a href="{{url('admins/product')}}">
+                              <i class="fa fa-product-hunt"></i>Product</a>
                       </li>
                   </ul>
               </div>
@@ -99,7 +103,11 @@
                       </li>
                       <li class="@yield('size_active')">
                           <a href="{{url('admins/size')}}">
-                              <i class="fas fa-paint-brush"></i>Size</a>
+                              <i class="fa fa-scribd"></i>Size</a>
+                      </li>
+                      <li class="@yield('product_active')">
+                          <a href="{{url('admins/product')}}">
+                              <i class="fa fa-product-hunt"></i>Product</a>
                       </li>
                   </ul>
               </nav>
@@ -169,6 +177,7 @@
 
     <!-- Main JS-->
     <script src="{{asset('admin/assets/js/main.js')}}"></script>
+    <script src="https://use.fontawesome.com/8b1efc3145.js"></script>
 
 </body>
 

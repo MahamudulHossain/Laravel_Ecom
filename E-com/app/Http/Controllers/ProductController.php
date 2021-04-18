@@ -1,0 +1,199 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class ProductController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     public function index()
+     {
+       $result['data'] = Product::all();
+         return view('admins.product',$result);
+     }
+     public function manage_product($id='')
+     {
+       $result['category'] = DB::table('categories')->where(['status'=>'1'])->get();
+       $result['size'] = DB::table('sizes')->where(['status'=>'1'])->get();
+       $result['color'] = DB::table('colors')->where(['status'=>'1'])->get();
+       if($id>0){
+         $arr = Product::where('id',$id)->get();
+         $result['category_id'] = $arr['0']['category_id'];
+         $result['slug'] = $arr['0']['slug'];
+         $result['name'] = $arr['0']['name'];
+         $result['brand'] = $arr['0']['brand'];
+         $result['model'] = $arr['0']['model'];
+         $result['short_desc'] = $arr['0']['short_desc'];
+         $result['desc'] = $arr['0']['desc'];
+         $result['keywords'] = $arr['0']['keywords'];
+         $result['technical_specification'] = $arr['0']['technical_specification'];
+         $result['uses'] = $arr['0']['uses'];
+         $result['warrenty'] = $arr['0']['warrenty'];
+         $result['id'] = $arr['0']['id'];
+
+         //For product Attribute box
+         $result['proAttrArr'] = DB::table('product_attr')->where(['product_id'=>$id])->get();
+         // echo '<pre>';
+         // print_r($result['proAttrArr']);
+         // die();
+       }else{
+         $result['category_id'] = '';
+         $result['slug'] = '';
+         $result['name'] = '';
+         $result['image'] = '';
+         $result['brand'] = '';
+         $result['model'] = '';
+         $result['short_desc'] = '';
+         $result['desc'] = '';
+         $result['keywords'] = '';
+         $result['technical_specification'] = '';
+         $result['uses'] = '';
+         $result['warrenty'] = '';
+         $result['id'] = 0;
+
+         //For product Attribute box
+         $result['proAttrArr'][0]['id'] = '';
+         $result['proAttrArr'][0]['color_id'] = '';
+         $result['proAttrArr'][0]['size_id'] = '';
+         $result['proAttrArr'][0]['tag'] = '';
+         $result['proAttrArr'][0]['mrp'] = '';
+         $result['proAttrArr'][0]['price'] = '';
+         $result['proAttrArr'][0]['qty'] = '';
+         $result['proAttrArr'][0]['attr_image'] = '';
+       }
+       return view('admins.manage_product',$result);
+     }
+     public function manage_product_process(Request $request)
+     {
+       if($request->post('id') > 0){
+         $image_validation = 'mimes:jpeg,jpg,png';
+       }else{
+         $image_validation = 'required|mimes:jpeg,jpg,png';
+       }
+       // echo "<pre>";
+       // print_r($request->post());
+       // die();
+       $request->validate([
+         'name'=>'required',
+         'image'=>$image_validation,
+         'slug'=>'required|unique:products,slug,'.$request->post('id'),
+         //Checking slug when inserting (unique:products) but when updating (,slug,'.$request->post('id'))
+         'attr_image.*' => 'mimes:jpeg,jpg,png'
+       ]);
+
+       /*Product Attribute*/
+       $paid = $request->post('paid');
+       $color_id = $request->post('color_id');
+       $size_id = $request->post('size_id');
+       $tag = $request->post('tag');
+       $mrp = $request->post('mrp');
+       $price = $request->post('price');
+       $qty = $request->post('qty');
+
+       // unique tag validation
+       foreach ($tag as $key => $value) {
+       $check = DB::table('product_attr')
+                ->where('tag','=',$tag[$key])
+                ->where('id','!=',$paid[$key])
+                ->get();
+        if(isset($check[0])){
+          $request->session()->flash('tag_error','tag '.$tag[$key].' already used');
+          return redirect(request()->headers->get('referer'));
+        }
+        }
+       if($request->post('id') > 0){
+         $model =Product::find($request->post('id'));
+         $msg = "Product Updated Successfully";
+       }else{
+         $model = new Product;
+         $msg = "Product Inserted Successfully";
+       }
+       if($request->hasfile('image')){
+         $image = $request->file('image');
+         $ext = $image->extension();
+         $image_name = time().'.'.$ext;
+         $image->storeAs('/public/media',$image_name);
+         $model->image = $image_name;
+       }
+       $model->category_id = $request->post('category_id');
+       $model->slug = $request->post('slug');
+       $model->name = $request->post('name');
+       $model->brand = $request->post('brand');
+       $model->model = $request->post('model');
+       $model->short_desc = $request->post('short_desc');
+       $model->desc = $request->post('desc');
+       $model->keywords = $request->post('keywords');
+       $model->technical_specification = $request->post('technical_specification');
+       $model->uses = $request->post('uses');
+       $model->warrenty = $request->post('warrenty');
+       $model->technical_specification = $request->post('technical_specification');
+       $model->status = 1;
+       $model->save();
+       $pid = $model -> id; //taking id of recently added product
+
+       foreach ($tag as $key => $value) {
+         $productArr['product_id'] = $pid;
+         if($color_id[$key] == ''){
+           $productArr['color_id'] = 0;
+         }else{
+           $productArr['color_id'] = $color_id[$key];
+         }
+         if($size_id[$key] == ''){
+           $productArr['size_id'] = 0;
+         }else{
+           $productArr['size_id'] = $size_id[$key];
+         }
+         $productArr['tag'] = $tag[$key];
+         $productArr['mrp'] = $mrp[$key];
+         $productArr['price'] = $price[$key];
+         $productArr['qty'] = $qty[$key];
+
+         if($request->hasfile("attr_image.$key")){
+           $rand = rand(111111111,999999999);
+           $attr_image = $request->file("attr_image.$key");
+           $attr_img_ext = $attr_image->extension();
+           $attr_image_name = $rand.'.'.$attr_img_ext;
+           $attr_image->storeAs('/public/media',$attr_image_name);
+           $productArr['attr_image'] = $attr_image_name;
+         }
+
+         if($paid[$key] !=''){
+           DB::table('product_attr')->where('id',$paid[$key])->update($productArr);
+         }else{
+           DB::table('product_attr')->insert($productArr);
+         }
+       }
+
+       $request->session()->flash('message',$msg);
+       return redirect('/admins/product');
+     }
+     public function delete(Request $request,$id)
+     {
+       $result = Product::find($id);
+       $result->delete();
+       $request->session()->flash('message','Product Deleted Successfully');
+       return redirect('/admins/product');
+     }
+
+     public function manage_product_delete(Request $request,$paid,$pid)
+     {
+       DB::table('product_attr')->where('id',$paid)->delete();
+       return redirect('/admins/product/manage_product/'.$pid);
+     }
+
+     public function manage_product_status(Request $request,$status,$id)
+     {
+       $result = Product::find($id);
+       $result->status = $status;
+       $result->save();
+       $request->session()->flash('message','Product Status Updated');
+       return redirect('/admins/product');
+     }
+}
