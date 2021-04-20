@@ -57,6 +57,10 @@
                           <a href="{{url('admins/coupon')}}">
                               <i class="fa fa-tags"></i>Coupon</a>
                       </li>
+                      <li class="@yield('brand_active')">
+                          <a href="{{url('admins/brand')}}">
+                            <i class="fas fa-code-branch"></i>Brand</a>
+                      </li>
                       <li class="@yield('color_active')">
                           <a href="{{url('admins/color')}}">
                               <i class="fas fa-paint-brush"></i>Color</a>
@@ -96,6 +100,10 @@
                       <li class="@yield('coupon_active')">
                           <a href="{{url('admins/coupon')}}">
                               <i class="fa fa-tags"></i>Coupon</a>
+                      </li>
+                      <li class="@yield('brand_active')">
+                          <a href="{{url('admins/brand')}}">
+                            <i class="fas fa-code-branch"></i>Brand</a>
                       </li>
                       <li class="@yield('color_active')">
                           <a href="{{url('admins/color')}}">

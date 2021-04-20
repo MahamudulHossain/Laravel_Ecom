@@ -7,6 +7,8 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BrandController;
+
 
 
 
@@ -56,4 +58,12 @@ Route::group(['middleware'=>'admin_auth'],function () {
   Route::get('admins/product/manage_product/status/{status}/{id}', [ProductController::class,'manage_product_status']);
   Route::get('admins/product/delete/{id}',[ProductController::class,'delete']);
   Route::get('admins/product/manage_product_delete/{paid}/{pid}',[ProductController::class,'manage_product_delete']);//product attribute delete
+  Route::get('admins/product/manage_product_imgs_delete/{piid}/{pid}',[ProductController::class,'manage_product_imgs_delete']);//product More images delete
+
+  Route::get('admins/brand', [BrandController::class,'index']);
+  Route::get('admins/brand/manage_brand', [BrandController::class,'manage_brand']);
+  Route::get('admins/brand/manage_brand/{id}', [BrandController::class,'manage_brand']);
+  Route::post('admins/brand/manage_brand_process',[BrandController::class,'manage_brand_process'])->name('admins.brand.manage_brand_process');
+  Route::get('admins/brand/manage_brand/status/{status}/{id}', [BrandController::class,'manage_brand_status']);
+  Route::get('admins/brand/delete/{id}',[BrandController::class,'delete']);
 });

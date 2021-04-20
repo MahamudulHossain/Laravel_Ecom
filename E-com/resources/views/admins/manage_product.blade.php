@@ -1,6 +1,6 @@
 @extends('admins.layout')
 
-@section('title','Manage Size')
+@section('title','Manage Product')
 
 @section('content')
 <div class="row">
@@ -67,7 +67,16 @@
                  </div>
                  <div class="form-group col-md-4">
                     <label for="brand" class="control-label mb-1">Brand</label>
-                    <input id="brand" value="{{$brand}}" name="brand" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                    <select name="brand_id" class="form-control" aria-required="true" aria-invalid="false" required>
+                      <option value="">Select Brand</option>
+                      @foreach($brand as $list)
+                      @if($brand_id == $list->id)
+                       <option value="{{$list->id}}" selected>{{$list->name}}</option>
+                      @else if
+                        <option value="{{$list->id}}">{{$list->name}}</option>
+                      @endif
+                      @endforeach
+                    </select>
                  </div>
                  <div class="form-group col-md-4">
                     <label for="model" class="control-label mb-1">Model</label>
@@ -99,7 +108,47 @@
                     <input type="hidden" name="id" value="{{$id}}">
                 </div>
         </div>
-        <div class="mb-3"><h4>Product Attributes</h4></div>
+
+        <div class="mb-3 ml-3"><h4>More Images</h4></div>
+        <div class="col-lg-12 mt-2">
+            <div class="card">
+                <div class="card-body">
+                  <?php $loop_count_img=1;?>
+                  <div class="row" id="addImg">
+                    @foreach($proImgArr as $key=>$val)
+                    <?php
+                      $productImgrArr = (array)$val; //Converting object into array
+                      $previous_loop_count_img = $loop_count_img;
+                     ?>
+                        <div class="form-group col-md-4 more_imgs_{{$loop_count_img++}}">
+                          <input id="piid" name="piid[]" value="{{$productImgrArr['id']}}" type="hidden">
+                            <label for="more_images" class="control-label mb-1">More Image</label>
+                            <input id="more_images" name="more_images[]" type="file" class="form-control" aria-required="true" aria-invalid="false">
+                            @if($productImgrArr['images'] !='')
+                            <img width="120px" src="{{asset('storage/media/'.$productImgrArr['images'])}}" alt="img">
+                            @endif
+                            @error('more_images.*')
+                            <div class="alert alert-danger" role="alert">
+        											{{ $message }}
+        										</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-2 more_imgs_{{$loop_count_img++}}">
+                          <label for="more_images" class="control-label mb-1">&nbsp;</label>
+                          @if($loop_count_img == 3)
+                          <input value="Add More" type="button" class="btn btn-lg btn-success btn-block" onclick="addmoreimg()">
+                          @else
+                          <a href="{{url('admins/product/manage_product_imgs_delete/')}}/{{$productImgrArr['id']}}/{{$id}}"><input value="Remove" type="button" class="btn btn-lg btn-danger btn-block"></a>
+                          @endif
+                       </div>
+                     @endforeach
+                  </div>
+                  </div>
+              </div>
+          </div>
+
+
+        <div class="mb-3 ml-3"><h4>Product Attributes</h4></div>
         <div class="col-lg-12 mt-2" id="attrmore">
           <?php $loop_count=1;?>
           @foreach($proAttrArr as $key=>$val)
@@ -135,6 +184,9 @@
                     <div class="form-group col-md-6">
                         <label for="attr_image" class="control-label mb-1">Attribute Image</label>
                         <input id="attr_image" name="attr_image[]" type="file" class="form-control" aria-required="true" aria-invalid="false">
+                        @if($productAttrArr['attr_image'] !='')
+                        <img width="120px" src="{{asset('storage/media/'.$productAttrArr['attr_image'])}}" alt="img">
+                        @endif
                         @error('attr_image')
                         <div class="alert alert-danger" role="alert">
     											{{ $message }}
@@ -143,7 +195,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="size" class="control-label mb-1">Size</label>
-                        <select name="size_id[]"  value="{{$productAttrArr['size_id']}}"   class="form-control" aria-required="true" aria-invalid="false">
+                        <select name="size_id[]" value="{{$productAttrArr['size_id']}}" class="form-control" aria-required="true" aria-invalid="false">
                           <option value="">Size</option>
                           @foreach($size as $list)
                             @if($productAttrArr['size_id'] == $list->id)
@@ -156,7 +208,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="color" class="control-label mb-1">Color</label>
-                        <select name="color_id[]"  value="{{$productAttrArr['color_id']}}"   class="form-control" aria-required="true" aria-invalid="false">
+                        <select name="color_id[]" value="{{$productAttrArr['color_id']}}" class="form-control" aria-required="true" aria-invalid="false">
                           <option value="">Color</option>
                           @foreach($color as $list)
                           @if($productAttrArr['color_id'] == $list->id)
@@ -172,7 +224,7 @@
                       @if($key == 0)
                     <input value="Add More" type="button" class="btn btn-lg btn-success btn-block" onclick="addmore()">
                     @else
-                    <a href="{{url('admins/product/manage_product_delete/')}}/{{$productAttrArr['id']}}/{{$id}}"><input value="Remove" type="button" class="btn btn-lg btn-danger btn-block")"></a>
+                    <a href="{{url('admins/product/manage_product_delete/')}}/{{$productAttrArr['id']}}/{{$id}}"><input value="Remove" type="button" class="btn btn-lg btn-danger btn-block"></a>
                     @endif
                   </div>
                   </div>
@@ -195,6 +247,17 @@
 
   function remove(id){
     jQuery(id).remove();
+  }
+
+  var addmoreImg=Math.ceil(Math.random()*100);
+  function addmoreimg(){
+    addmoreImg++;
+    var htm  = '<div class="form-group col-md-4 more_imgs_'+addmoreImg+'"><input id="piid" name="piid[]" value="" type="hidden"><label for="more_images" class="control-label mb-1">More Image</label><input id="more_images" name="more_images[]" type="file" class="form-control" aria-required="true" aria-invalid="false" required>@error('more_images')<div class="alert alert-danger" role="alert">{{ $message }}</div>@enderror</div><div class="col-md-2 more_imgs_'+addmoreImg+'"><label for="more_images" class="control-label mb-1"></label><input value="Remove" type="button" class="btn btn-lg btn-danger btn-block"  onclick=imgremove('+addmoreImg+')></div>';
+    jQuery("#addImg").append(htm);
+  }
+
+  function imgremove(d){
+    jQuery('.more_imgs_'+d).remove();
   }
 </script>
 @endsection
