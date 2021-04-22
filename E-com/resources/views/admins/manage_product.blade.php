@@ -28,7 +28,7 @@
                     <input id="name" value="{{$name}}" name="name" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
                 </div>
                 <div class="row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                       <label for="category" class="control-label mb-1">category</label>
                       <select name="category_id" class="form-control" aria-required="true" aria-invalid="false" required>
                         <option value="">Select Category</option>
@@ -41,30 +41,26 @@
                         @endforeach
                       </select>
                   </div>
-                  <div class="form-group col-md-6">
-                      <label for="technical_specification" class="control-label mb-1">Technical Specification</label>
-                      <input id="technical_specification" value="{{$technical_specification}}" name="technical_specification" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                  <div class="form-group col-md-4">
+                     <label for="slug" class="control-label mb-1">Slug</label>
+                     <input id="slug" value="{{$slug}}" name="slug" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                     @error('slug')
+                     <div class="alert alert-danger" role="alert">
+ 											{{ $message }}
+ 										</div>
+                     @enderror
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label for="image" class="control-label mb-1">Product Image</label>
+                      <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false">
+                      @error('image')
+                      <div class="alert alert-danger" role="alert">
+  											{{ $message }}
+  										</div>
+                      @enderror
                   </div>
               </div>
-                <div class="form-group">
-                    <label for="image" class="control-label mb-1">Product Image</label>
-                    <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false">
-                    @error('image')
-                    <div class="alert alert-danger" role="alert">
-											{{ $message }}
-										</div>
-                    @enderror
-                </div>
                 <div class="row">
-                 <div class="form-group col-md-4">
-                    <label for="slug" class="control-label mb-1">Slug</label>
-                    <input id="slug" value="{{$slug}}" name="slug" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
-                    @error('slug')
-                    <div class="alert alert-danger" role="alert">
-											{{ $message }}
-										</div>
-                    @enderror
-                 </div>
                  <div class="form-group col-md-4">
                     <label for="brand" class="control-label mb-1">Brand</label>
                     <select name="brand_id" class="form-control" aria-required="true" aria-invalid="false" required>
@@ -82,6 +78,10 @@
                     <label for="model" class="control-label mb-1">Model</label>
                     <input id="model" value="{{$model}}" name="model" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
                  </div>
+                 <div class="form-group col-md-4">
+                     <label for="keywords" class="control-label mb-1">Keywords</label>
+                     <input id="keywords" value="{{$keywords}}" name="keywords" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                 </div>
               </div>
                 <div class="form-group">
                     <label for="short_desc" class="control-label mb-1">Short Description</label>
@@ -91,11 +91,11 @@
                     <label for="desc" class="control-label mb-1">Description</label>
                     <textarea id="desc" name="desc" type="text" class="form-control" aria-required="true" aria-invalid="false" required>{{$desc}}</textarea>
                 </div>
+                <div class="form-group">
+                    <label for="technical_specification" class="control-label mb-1">Technical Specification</label>
+                    <textarea id="technical_specification" name="technical_specification" type="text" class="form-control" aria-required="true" aria-invalid="false" required>{{$technical_specification}}</textarea>
+                </div>
                 <div class="row">
-                  <div class="form-group col-md-4">
-                      <label for="keywords" class="control-label mb-1">Keywords</label>
-                      <input id="keywords" value="{{$keywords}}" name="keywords" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
-                  </div>
                   <div class="form-group col-md-4">
                       <label for="uses" class="control-label mb-1">Uses</label>
                       <input id="uses" value="{{$uses}}" name="uses" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
@@ -103,6 +103,60 @@
                   <div class="form-group col-md-4">
                       <label for="warrenty" class="control-label mb-1">Warrenty</label>
                       <input id="warrenty" value="{{$warrenty}}" name="warrenty" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label for="lead_time" class="control-label mb-1">Lead Time</label>
+                      <input id="lead_time" value="{{$lead_time}}" name="lead_time" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-3">
+                      <label for="is_promo" class="control-label mb-1">Is Promo</label>
+                      <select name="is_promo" class="form-control" aria-required="true" aria-invalid="false" required>
+                        @if($is_promo == '1')
+                         <option value="1" selected>Yes</option>
+                         <option value="0">No</option>
+                        @else
+                        <option value="1">Yes</option>
+                          <option value="0" selected>No</option>
+                        @endif
+                      </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label for="is_featured" class="control-label mb-1">Is Featured</label>
+                      <select name="is_featured" class="form-control" aria-required="true" aria-invalid="false" required>
+                        @if($is_featured == '1')
+                         <option value="1" selected>Yes</option>
+                         <option value="0">No</option>
+                        @else
+                        <option value="1">Yes</option>
+                          <option value="0" selected>No</option>
+                        @endif
+                      </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label for="is_discounted" class="control-label mb-1">Is Discounted</label>
+                      <select name="is_discounted" class="form-control" aria-required="true" aria-invalid="false" required>
+                        @if($is_discounted == '1')
+                         <option value="1" selected>Yes</option>
+                         <option value="0">No</option>
+                        @else
+                        <option value="1">Yes</option>
+                          <option value="0" selected>No</option>
+                        @endif
+                      </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label for="is_tranding" class="control-label mb-1">Is Tranding</label>
+                      <select name="is_tranding" class="form-control" aria-required="true" aria-invalid="false" required>
+                        @if($is_tranding == '1')
+                         <option value="1" selected>Yes</option>
+                         <option value="0">No</option>
+                        @else
+                        <option value="1">Yes</option>
+                          <option value="0" selected>No</option>
+                        @endif
+                      </select>
                   </div>
                 </div>
                     <input type="hidden" name="id" value="{{$id}}">
@@ -259,5 +313,10 @@
   function imgremove(d){
     jQuery('.more_imgs_'+d).remove();
   }
+
+    CKEDITOR.replace('short_desc');
+    CKEDITOR.replace('desc');
+    CKEDITOR.replace('technical_specification');
+
 </script>
 @endsection

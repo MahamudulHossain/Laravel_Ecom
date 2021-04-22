@@ -1,5 +1,5 @@
 @extends('admins.layout')
-
+ 
 @section('title','Category')
 @section('category_active','active')
 
@@ -21,7 +21,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-    @endif 
+    @endif
     <div class="table-responsive table--no-card m-b-30 mt-2">
         <table class="table table-borderless table-striped table-earning">
             <thead>

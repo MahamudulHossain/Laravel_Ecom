@@ -24,11 +24,17 @@ class CouponController extends Controller
          $result['title'] = $arr['0']['title'];
          $result['coupon_slug'] = $arr['0']['coupon_slug'];
          $result['value'] = $arr['0']['value'];
+         $result['type'] = $arr['0']['type'];
+         $result['min_order_amt'] = $arr['0']['min_order_amt'];
+         $result['is_onetime'] = $arr['0']['is_onetime'];
          $result['id'] = $arr['0']['id'];
        }else{
          $result['title'] = '';
          $result['coupon_slug'] = '';
          $result['value'] = '';
+         $result['type'] = '';
+         $result['min_order_amt'] = '';
+         $result['is_onetime'] = '';
          $result['id'] = 0;
        }
        return view('admins.manage_coupon',$result);
@@ -52,6 +58,9 @@ class CouponController extends Controller
        $model->title = $request->post('title');
        $model->coupon_slug = $request->post('coupon_slug');
        $model->value = $request->post('value');
+       $model->type = $request->post('type');
+       $model->min_order_amt = $request->post('min_order_amt');
+       $model->is_onetime = $request->post('is_onetime');
        $model->status = 1;
        $model->save();
        $request->session()->flash('message',$msg);

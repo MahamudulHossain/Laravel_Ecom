@@ -37,6 +37,11 @@ class ProductController extends Controller
          $result['technical_specification'] = $arr['0']['technical_specification'];
          $result['uses'] = $arr['0']['uses'];
          $result['warrenty'] = $arr['0']['warrenty'];
+         $result['lead_time'] = $arr['0']['lead_time'];
+         $result['is_promo'] = $arr['0']['is_promo'];
+         $result['is_featured'] = $arr['0']['is_featured'];
+         $result['is_discounted'] = $arr['0']['is_discounted'];
+         $result['is_tranding'] = $arr['0']['is_tranding'];
          $result['id'] = $arr['0']['id'];
 
          //For product Attribute box
@@ -66,6 +71,11 @@ class ProductController extends Controller
          $result['technical_specification'] = '';
          $result['uses'] = '';
          $result['warrenty'] = '';
+         $result['lead_time'] = '';
+         $result['is_promo'] = '';
+         $result['is_featured'] = '';
+         $result['is_discounted'] = '';
+         $result['is_tranding'] = '';
          $result['id'] = 0;
 
          //For product Attribute box
@@ -149,7 +159,11 @@ class ProductController extends Controller
        $model->technical_specification = $request->post('technical_specification');
        $model->uses = $request->post('uses');
        $model->warrenty = $request->post('warrenty');
-       $model->technical_specification = $request->post('technical_specification');
+       $model->lead_time = $request->post('lead_time');
+       $model->is_promo = $request->post('is_promo');
+       $model->is_featured = $request->post('is_featured');
+       $model->is_discounted = $request->post('is_discounted');
+       $model->is_tranding = $request->post('is_tranding');
        $model->status = 1;
        $model->save();
        $pid = $model -> id; //taking id of recently added product
