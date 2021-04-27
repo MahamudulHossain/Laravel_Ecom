@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Coupon extends Model
+class Brand extends Model
 {
     use HasFactory;
-    public $table='coupons';
+    public $table='brands';
     public $primaryKey='id';
     public $incrementing=true;
     public $keyType='int';

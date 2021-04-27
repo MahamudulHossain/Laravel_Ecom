@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Storage;
 
 class CategoryController extends Controller
 {
@@ -27,6 +29,7 @@ class CategoryController extends Controller
         $result['category_slug'] = $arr['0']['category_slug'];
         $result['parent_category_id'] = $arr['0']['parent_category_id'];
         $result['category_image'] = $arr['0']['category_image'];
+        $result['is_show_home'] = $arr['0']['is_show_home'];
         $result['id'] = $arr['0']['id'];
       }else{
         $result['category'] = DB::table('categories')->where(['status'=>'1'])->get();
@@ -34,6 +37,7 @@ class CategoryController extends Controller
         $result['category_slug'] = '';
         $result['parent_category_id'] = '';
         $result['category_image'] = '';
+        $result['is_show_home'] = 0;
         $result['id'] = 0;
       }
       return view('admins.manage_category',$result);
@@ -58,7 +62,17 @@ class CategoryController extends Controller
       $model->category_name = $request->post('category_name');
       $model->category_slug = $request->post('category_slug');
       $model->parent_category_id = $request->post('parent_category_id');
+      $model->is_show_home = $request->post('is_show_home');
       if($request->hasfile('category_image')){
+        if($request->post('id')>0){
+            $ImgArr = DB::table('categories')->where('id', $request->post('id'))->get();
+            // echo '<pre>';
+            // print_r($ImgArr[0]->category_image);
+            // die();
+            if(Storage::exists('/public/media/category/'.$ImgArr[0]->category_image)){
+              Storage::delete('/public/media/category/'.$ImgArr[0]->category_image);
+            }
+         }
         $image = $request->file('category_image');
         $ext = $image->extension();
         $image_name = time().'.'.$ext;

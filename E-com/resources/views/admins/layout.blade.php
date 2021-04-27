@@ -75,6 +75,10 @@
                           <a href="{{url('admins/product')}}">
                               <i class="fa fa-product-hunt"></i>Product</a>
                       </li>
+                      <li class="@yield('customer_active')">
+                          <a href="{{url('admins/customer')}}">
+                              <i class="fa fa-product-hunt"></i>Customer</a>
+                      </li>
                   </ul>
               </div>
           </nav>
@@ -118,6 +122,10 @@
                       <li class="@yield('product_active')">
                           <a href="{{url('admins/product')}}">
                               <i class="fa fa-product-hunt"></i>Product</a>
+                      </li>
+                      <li class="@yield('customer_active')">
+                          <a href="{{url('admins/customer')}}">
+                              <i class="fa fa-product-hunt"></i>Customer</a>
                       </li>
                   </ul>
               </nav>

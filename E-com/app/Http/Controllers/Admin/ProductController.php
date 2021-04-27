@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Product;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -142,6 +144,15 @@ class ProductController extends Controller
          $msg = "Product Inserted Successfully";
        }
        if($request->hasfile('image')){
+         if($request->post('id')>0){
+             $ImgArr = DB::table('products')->where('id', $request->post('id'))->get();
+             // echo '<pre>';
+             // print_r($ImgArr[0]->image);
+             // die();
+             if(Storage::exists('/public/media/'.$ImgArr[0]->image)){
+               Storage::delete('/public/media/'.$ImgArr[0]->image);
+             }
+          }
          $image = $request->file('image');
          $ext = $image->extension();
          $image_name = time().'.'.$ext;
@@ -170,6 +181,7 @@ class ProductController extends Controller
 
 
        foreach ($tag as $key => $value) {
+         $productArr=[]; /*Initializing blank array to avoid same image in all fields*/
          $productArr['product_id'] = $pid;
          if($color_id[$key] == ''){
            $productArr['color_id'] = 0;
@@ -187,6 +199,15 @@ class ProductController extends Controller
          $productArr['qty'] = (int)$qty[$key];
 
          if($request->hasfile("attr_image.$key")){
+           if($paid[$key]>0){
+               $ImgArr = DB::table('product_attr')->where('id', $paid[$key])->get();
+               // echo '<pre>';
+               // print_r($ImgArr[0]->attr_image);
+               // die();
+               if(Storage::exists('/public/media/'.$ImgArr[0]->attr_image)){
+                 Storage::delete('/public/media/'.$ImgArr[0]->attr_image);
+               }
+            }
            $rand = rand(111111111,999999999);
            $attr_image = $request->file("attr_image.$key");
            $attr_img_ext = $attr_image->extension();
@@ -207,6 +228,15 @@ class ProductController extends Controller
        foreach ($piid as $key => $value) {
          $productImgArr['product_id'] = $pid;
          if($request->hasfile("more_images.$key")){
+           if($piid[$key]>0){
+               $ImgArr = DB::table('product_images')->where('id', $piid[$key])->get();
+               // echo '<pre>';
+               // print_r($ImgArr[0]->images);
+               // die();
+               if(Storage::exists('/public/media/'.$ImgArr[0]->images)){
+                 Storage::delete('/public/media/'.$ImgArr[0]->images);
+               }
+            }
            $rand = rand(111111111,999999999);
            $more_images = $request->file("more_images.$key");
            $more_images_ext = $more_images->extension();
@@ -234,12 +264,26 @@ class ProductController extends Controller
 
      public function manage_product_delete(Request $request,$paid,$pid)
      {
+       $ImgArr = DB::table('product_attr')->where('id', $paid)->get();
+       // echo '<pre>';
+       // print_r($ImgArr[0]->attr_image);
+       // die();
+       if(Storage::exists('/public/media/'.$ImgArr[0]->attr_image)){
+         Storage::delete('/public/media/'.$ImgArr[0]->attr_image);
+       }
        DB::table('product_attr')->where('id',$paid)->delete();
        return redirect('/admins/product/manage_product/'.$pid);
      }
 
      public function manage_product_imgs_delete(Request $request,$piid,$pid)
      {
+       $ImgArr = DB::table('product_images')->where('id', $piid)->get();
+       // echo '<pre>';
+       // print_r($ImgArr[0]->images);
+       // die();
+       if(Storage::exists('/public/media/'.$ImgArr[0]->images)){
+         Storage::delete('/public/media/'.$ImgArr[0]->images);
+       }
        DB::table('product_images')->where('id',$piid)->delete();
        return redirect('/admins/product/manage_product/'.$pid);
      }

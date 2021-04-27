@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Brand;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Storage;
 
 class BrandController extends Controller
 {
@@ -23,10 +26,12 @@ class BrandController extends Controller
          $arr = Brand::where('id',$id)->get();
          $result['name'] = $arr['0']['name'];
          $result['image'] = $arr['0']['image'];
+         $result['is_show_home'] = $arr['0']['is_show_home'];
          $result['id'] = $arr['0']['id'];
        }else{
          $result['name'] = '';
          $result['image'] = '';
+         $result['is_show_home'] = '';
          $result['id'] = 0;
        }
        return view('admins.manage_brand',$result);
@@ -51,12 +56,22 @@ class BrandController extends Controller
          $msg = "Brand Inserted Successfully";
        }
        if($request->hasfile('image')){
+         if($request->post('id')>0){
+             $ImgArr = DB::table('brands')->where('id', $request->post('id'))->get();
+             // echo '<pre>';
+             // print_r($ImgArr[0]->image);
+             // die();
+             if(Storage::exists('/public/media/brand/'.$ImgArr[0]->image)){
+               Storage::delete('/public/media/brand/'.$ImgArr[0]->image);
+             }
+          }
          $image = $request->file('image');
          $ext = $image->extension();
          $image_name = time().'.'.$ext;
          $image->storeAs('/public/media/brand',$image_name);
          $model->image = $image_name;
        }
+       $model->is_show_home = $request->post('is_show_home');
        $model->name = $request->post('name');
        $model->status = 1;
        $model->save();

@@ -1,15 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CouponController;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\SizeController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\BrandController;
-
-
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CustomerController;
 
 
 Route::get('/admins', [AdminController::class,'index']);
@@ -66,4 +65,8 @@ Route::group(['middleware'=>'admin_auth'],function () {
   Route::post('admins/brand/manage_brand_process',[BrandController::class,'manage_brand_process'])->name('admins.brand.manage_brand_process');
   Route::get('admins/brand/manage_brand/status/{status}/{id}', [BrandController::class,'manage_brand_status']);
   Route::get('admins/brand/delete/{id}',[BrandController::class,'delete']);
+
+  Route::get('admins/customer', [CustomerController::class,'index']);
+  Route::get('admins/customer/show_customer/{id}', [CustomerController::class,'show']);
+  Route::get('admins/customer/manage_customer/status/{status}/{id}', [CustomerController::class,'manage_customer_status']);
 });

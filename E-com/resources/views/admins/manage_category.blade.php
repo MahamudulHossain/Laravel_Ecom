@@ -1,5 +1,5 @@
 @extends('admins.layout')
-
+ 
 @section('title','Manage Category')
 
 @section('content')
@@ -23,7 +23,7 @@
                 <div class="form-group col-md-4">
                     <label for="parent_category_id" class="control-label mb-1">Parent Category</label>
                     <select name="parent_category_id" class="form-control" aria-required="true" aria-invalid="false">
-                      <option value="">Select Category</option>
+                      <option value="0">Select Category</option>
                       @foreach($category as $list)
                         @if($parent_category_id == $list->id)
                          <option value="{{$list->id}}" selected>{{$list->category_name}}</option>
@@ -54,6 +54,13 @@
                     {{ $message }}
                   </div>
                   @enderror
+              </div>
+              <div class="mb-2">
+                @if($is_show_home == '1')
+                <span><b>Show in home </b></span><input type="checkbox" name="is_show_home" value="1" checked>
+                @else
+                <span><b>Show in home </b></span><input type="checkbox" name="is_show_home" value="1">
+                @endif
               </div>
                     <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">Save</button>
                     <input type="hidden" name="id" value="{{$id}}">

@@ -36,6 +36,13 @@
 										</div>
                     @enderror
                 </div>
+                <div class="mb-2">
+                  @if($is_show_home == '1')
+                  <span><b>Show in home </b></span><input type="checkbox" name="is_show_home" value="1" checked>
+                  @else
+                  <span><b>Show in home </b></span><input type="checkbox" name="is_show_home" value="1">
+                  @endif
+                </div>
                     <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">Save</button>
                     <input type="hidden" name="id" value="{{$id}}">
                 </div>
