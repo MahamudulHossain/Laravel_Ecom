@@ -51,6 +51,10 @@
                           <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                       </li>
+                      <li class="@yield('banner_active')">
+                          <a href="{{url('admins/banner')}}">
+                              <i class="fa fa-picture-o"></i>Banner</a>
+                      </li>
                       <li class="@yield('category_active')">
                           <a href="{{url('admins/category')}}">
                               <i class="fa fa-list"></i>Category</a>
@@ -77,7 +81,7 @@
                       </li>
                       <li class="@yield('customer_active')">
                           <a href="{{url('admins/customer')}}">
-                              <i class="fa fa-product-hunt"></i>Customer</a>
+                              <i class="fa fa-users"></i>Customer</a>
                       </li>
                   </ul>
               </div>
@@ -99,6 +103,10 @@
                           <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                       </li>
+                      <li class="@yield('banner_active')">
+                          <a href="{{url('admins/banner')}}">
+                              <i class="fa fa-picture-o"></i>Banner</a>
+                      </li>
                       <li class="@yield('category_active')">
                           <a href="{{url('admins/category')}}">
                               <i class="fa fa-list"></i>Category</a>
@@ -125,7 +133,7 @@
                       </li>
                       <li class="@yield('customer_active')">
                           <a href="{{url('admins/customer')}}">
-                              <i class="fa fa-product-hunt"></i>Customer</a>
+                              <i class="fa fa-users"></i>Customer</a>
                       </li>
                   </ul>
               </nav>

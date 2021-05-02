@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
@@ -9,8 +10,9 @@ use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\BannerController;
 
-
+Route::get('/', [FrontController::class,'index']);
 Route::get('/admins', [AdminController::class,'index']);
 Route::post('/admins/admin_login_process', [AdminController::class, 'admin_login_process'])->name('admins.login');
 Route::group(['middleware'=>'admin_auth'],function () {
@@ -65,6 +67,13 @@ Route::group(['middleware'=>'admin_auth'],function () {
   Route::post('admins/brand/manage_brand_process',[BrandController::class,'manage_brand_process'])->name('admins.brand.manage_brand_process');
   Route::get('admins/brand/manage_brand/status/{status}/{id}', [BrandController::class,'manage_brand_status']);
   Route::get('admins/brand/delete/{id}',[BrandController::class,'delete']);
+
+  Route::get('admins/banner', [BannerController::class,'index']);
+  Route::get('admins/banner/manage_banner', [BannerController::class,'manage_banner']);
+  Route::get('admins/banner/manage_banner/{id}', [BannerController::class,'manage_banner']);
+  Route::post('admins/banner/manage_banner_process',[BannerController::class,'manage_banner_process'])->name('admins.banner.manage_banner_process');
+  Route::get('admins/banner/manage_banner/status/{status}/{id}', [BannerController::class,'manage_banner_status']);
+  Route::get('admins/banner/delete/{id}',[BannerController::class,'delete']);
 
   Route::get('admins/customer', [CustomerController::class,'index']);
   Route::get('admins/customer/show_customer/{id}', [CustomerController::class,'show']);
