@@ -1,0 +1,16 @@
+I have used Helpers in app folder to dynamic Navbar
+
+Steps:
+1. Helpers folder is created into app folder.
+2. common.php file is created into Helpers folder.
+3. "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+        "app/Helpers/common.php"
+    ]
+    },
+4. composer dump-autoload command is executed.

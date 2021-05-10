@@ -98,7 +98,7 @@
                 <div class="row">
                   <div class="form-group col-md-4">
                       <label for="uses" class="control-label mb-1">Uses</label>
-                      <input id="uses" value="{{$uses}}" name="uses" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                      <input id="uses" value="{{$uses}}" name="uses" type="text" class="form-control" aria-required="true" aria-invalid="false">
                   </div>
                   <div class="form-group col-md-4">
                       <label for="warrenty" class="control-label mb-1">Warrenty</label>
@@ -106,7 +106,7 @@
                   </div>
                   <div class="form-group col-md-4">
                       <label for="lead_time" class="control-label mb-1">Lead Time</label>
-                      <input id="lead_time" value="{{$lead_time}}" name="lead_time" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                      <input id="lead_time" value="{{$lead_time}}" name="lead_time" type="text" class="form-control" aria-required="true" aria-invalid="false">
                   </div>
                 </div>
                 <div class="row">

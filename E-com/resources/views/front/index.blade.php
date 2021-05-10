@@ -90,7 +90,7 @@
                       @foreach($home_category_product[$list->id] as $productArr)
                       <li>
                         <figure>
-                          <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}"></a>
+                          <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
                           <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                           <figcaption>
                             <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>
@@ -142,7 +142,7 @@
                   @foreach($home_featured_product[$list->id] as $productArr)
                   <li>
                     <figure>
-                      <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}"></a>
+                      <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
                       <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                       <figcaption>
                         <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>
@@ -169,7 +169,7 @@
                 @foreach($home_discounted_product[$list->id] as $productArr)
                 <li>
                   <figure>
-                    <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}"></a>
+                    <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
                     <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                     <figcaption>
                       <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>
@@ -196,7 +196,7 @@
               @foreach($home_tranding_product[$list->id] as $productArr)
               <li>
                 <figure>
-                  <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}"></a>
+                  <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
                   <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                   <figcaption>
                     <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>

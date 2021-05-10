@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\BannerController;
 
 Route::get('/', [FrontController::class,'index']);
+Route::get('product/{slug}', [FrontController::class,'product_detail']);
 Route::get('/admins', [AdminController::class,'index']);
 Route::post('/admins/admin_login_process', [AdminController::class, 'admin_login_process'])->name('admins.login');
 Route::group(['middleware'=>'admin_auth'],function () {

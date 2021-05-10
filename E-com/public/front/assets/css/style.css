@@ -4181,4 +4181,31 @@ img {
   #aa-header .aa-header-top .aa-header-top-right .aa-head-top-nav-right li a {
     padding: 5px 2px;
   }
+
+}
+
+
+.pro_style{
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+}
+.techWrnUs{
+  padding: 20px 10px;
+}
+
+.aa-color-burnt-brick{
+  background-color: #a14d3a;
+}
+.aa-color-dark-truffle{
+  background-color: #69463e;
+}
+.aa-color-pebblestone-heather{
+  background-color: #E5DCC3;
+}
+.aa-color-blue{
+  background-color: blue;
+}
+.aa-color-orange{
+  background-color: orange;
 }
