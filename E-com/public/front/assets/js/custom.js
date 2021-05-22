@@ -425,3 +425,9 @@ function deleteCart(pid,paid,size,color){
   add_to_cart(pid,size,color);
   window.location.href = window.location.href;
 }
+
+function sort_by(){
+  var sort = jQuery("#sort_by_value").val();
+  jQuery("#sort_value").val(sort);
+  jQuery("#sortFrm").submit();
+}

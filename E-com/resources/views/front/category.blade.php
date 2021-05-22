@@ -13,21 +13,15 @@
               <div class="aa-product-catg-head-left">
                 <form action="" class="aa-sort-form">
                   <label for="">Sort by</label>
-                  <select name="">
-                    <option value="1" selected="Default">Default</option>
-                    <option value="2">Name</option>
-                    <option value="3">Price</option>
-                    <option value="4">Date</option>
+                  <select id="sort_by_value" onchange="sort_by()">
+                    <option value="" selected="Default">Default</option>
+                    <option value="name">Name</option>
+                    <option value="price_lh">Price(Low > High)</option>
+                    <option value="price_hl">Price(High > Low)</option>
+                    <option value="date">Date</option>
                   </select>
                 </form>
-                <form action="" class="aa-show-form">
-                  <label for="">Show</label>
-                  <select name="">
-                    <option value="1" selected="12">12</option>
-                    <option value="2">24</option>
-                    <option value="3">36</option>
-                  </select>
-                </form>
+                <span class="sort_msg">{{$sort_txt}}</span>
               </div>
               <div class="aa-product-catg-head-right">
                 <a id="grid-catg" href="#"><span class="fa fa-th"></span></a>
@@ -147,6 +141,7 @@
               <h3>Recently Views</h3>
               <div class="aa-recently-views">
                 <ul>
+
                   <li>
                     <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-2.jpg"></a>
                     <div class="aa-cartbox-info">
@@ -154,20 +149,7 @@
                       <p>1 x $250</p>
                     </div>
                   </li>
-                  <li>
-                    <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-1.jpg"></a>
-                    <div class="aa-cartbox-info">
-                      <h4><a href="#">Product Name</a></h4>
-                      <p>1 x $250</p>
-                    </div>
-                  </li>
-                   <li>
-                    <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-2.jpg"></a>
-                    <div class="aa-cartbox-info">
-                      <h4><a href="#">Product Name</a></h4>
-                      <p>1 x $250</p>
-                    </div>
-                  </li>
+
                 </ul>
               </div>
             </div>
@@ -176,20 +158,7 @@
               <h3>Top Rated Products</h3>
               <div class="aa-recently-views">
                 <ul>
-                  <li>
-                    <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-2.jpg"></a>
-                    <div class="aa-cartbox-info">
-                      <h4><a href="#">Product Name</a></h4>
-                      <p>1 x $250</p>
-                    </div>
-                  </li>
-                  <li>
-                    <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-1.jpg"></a>
-                    <div class="aa-cartbox-info">
-                      <h4><a href="#">Product Name</a></h4>
-                      <p>1 x $250</p>
-                    </div>
-                  </li>
+
                    <li>
                     <a href="#" class="aa-cartbox-img"><img alt="img" src="img/woman-small-2.jpg"></a>
                     <div class="aa-cartbox-info">
@@ -197,6 +166,7 @@
                       <p>1 x $250</p>
                     </div>
                   </li>
+
                 </ul>
               </div>
             </div>
@@ -207,14 +177,7 @@
     </div>
   </section>
 
-
-
- <input type="hidden" id="qty"/>
- <form id="addTocartFrm">
-   @csrf
-   <input type="hidden" id="size_id" name="size_id" />
-   <input type="hidden" id="color_id" name="color_id" />
-   <input type="hidden" id="pro_qty" name="pro_qty"/>
-   <input type="hidden" id="product_id" name="product_id"/>
+ <form id="sortFrm">
+   <input type="text" id="sort_value" name="sort_value" />
  </form>
 @endsection
