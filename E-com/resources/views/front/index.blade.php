@@ -91,7 +91,7 @@
                       <li>
                         <figure>
                           <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
-                          <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                          <a class="aa-add-card-btn"href="product/{{$productArr->slug}}"><span class="fa fa-shopping-cart"></span>Shop Now</a>
                           <figcaption>
                             <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>
                             <span class="aa-product-price">TK. {{$home_category_product_attr[$productArr->id][0]->price}}/-</span><span class="aa-product-price"><del>TK. {{$home_category_product_attr[$productArr->id][0]->mrp}}/-</del></span>
@@ -143,7 +143,7 @@
                   <li>
                     <figure>
                       <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
-                      <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                      <a class="aa-add-card-btn" href="product/{{$productArr->slug}}"><span class="fa fa-shopping-cart"></span>Shop Now</a>
                       <figcaption>
                         <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>
                         <span class="aa-product-price">TK. {{$home_featured_product_attr[$productArr->id][0]->price}}/-</span><span class="aa-product-price"><del>TK. {{$home_featured_product_attr[$productArr->id][0]->mrp}}/-</del></span>
@@ -170,7 +170,7 @@
                 <li>
                   <figure>
                     <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
-                    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                    <a class="aa-add-card-btn" href="product/{{$productArr->slug}}"><span class="fa fa-shopping-cart"></span>Shop Now</a>
                     <figcaption>
                       <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>
                       <span class="aa-product-price">TK. {{$home_discounted_product_attr[$productArr->id][0]->price}}/-</span><span class="aa-product-price"><del>TK. {{$home_discounted_product_attr[$productArr->id][0]->mrp}}/-</del></span>
@@ -197,7 +197,7 @@
               <li>
                 <figure>
                   <a class="aa-product-img" href="product/{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width="200px" height="300px"></a>
-                  <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                  <a class="aa-add-card-btn" href="product/{{$productArr->slug}}"><span class="fa fa-shopping-cart"></span>Shop Now</a>
                   <figcaption>
                     <h4 class="aa-product-title"><a href="product/{{$productArr->slug}}">{{$productArr->name}}</a></h4>
                     <span class="aa-product-price">TK. {{$home_tranding_product_attr[$productArr->id][0]->price}}/-</span><span class="aa-product-price"><del>TK. {{$home_tranding_product_attr[$productArr->id][0]->mrp}}/-</del></span>

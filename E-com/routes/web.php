@@ -14,6 +14,9 @@ use App\Http\Controllers\Admin\BannerController;
 
 Route::get('/', [FrontController::class,'index']);
 Route::get('product/{slug}', [FrontController::class,'product_detail']);
+Route::get('category/{slug}', [FrontController::class,'category_page']);
+Route::post('addtocart', [FrontController::class,'add_to_cart']);
+Route::get('mycart', [FrontController::class,'mycart']);
 Route::get('/admins', [AdminController::class,'index']);
 Route::post('/admins/admin_login_process', [AdminController::class, 'admin_login_process'])->name('admins.login');
 Route::group(['middleware'=>'admin_auth'],function () {

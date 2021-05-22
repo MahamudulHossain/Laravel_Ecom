@@ -4193,7 +4193,9 @@ img {
 .techWrnUs{
   padding: 20px 10px;
 }
-
+.mt-10{
+  margin-top: 10px;
+}
 .aa-color-burnt-brick{
   background-color: #a14d3a;
 }
@@ -4208,4 +4210,8 @@ img {
 }
 .aa-color-orange{
   background-color: orange;
+}
+.pro_detail_price{
+  font-size: 30px;
+  color: #f57224;
 }

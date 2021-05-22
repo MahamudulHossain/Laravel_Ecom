@@ -249,7 +249,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="size" class="control-label mb-1">Size</label>
-                        <select name="size_id[]" value="{{$productAttrArr['size_id']}}" class="form-control" aria-required="true" aria-invalid="false">
+                        <select name="size_id[]" value="{{$productAttrArr['size_id']}}" class="form-control" aria-required="true" aria-invalid="false" required>
                           <option value="">Size</option>
                           @foreach($size as $list)
                             @if($productAttrArr['size_id'] == $list->id)
@@ -262,7 +262,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="color" class="control-label mb-1">Color</label>
-                        <select name="color_id[]" value="{{$productAttrArr['color_id']}}" class="form-control" aria-required="true" aria-invalid="false">
+                        <select name="color_id[]" value="{{$productAttrArr['color_id']}}" class="form-control" aria-required="true" aria-invalid="false" required>
                           <option value="">Color</option>
                           @foreach($color as $list)
                           @if($productAttrArr['color_id'] == $list->id)

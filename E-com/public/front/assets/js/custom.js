@@ -357,6 +357,71 @@ jQuery(function($){
 
 });
 
-function show_color_image(im){
+function show_color_image(im,color){
+  jQuery("#color_id").val(color);
   jQuery('.simpleLens-container').html('<div class="simpleLens-big-image-container"><a data-lens-image="'+im+'" class="simpleLens-lens-image"><img src="'+im+'" class="simpleLens-big-image"></a></div>');
+
+
+}
+function show_product(size){
+  jQuery("#size_id").val(size);
+  jQuery(".pro_size").css('border','1px solid #ddd');
+  jQuery(".pro_size_"+size).css('border','1px solid black');
+  jQuery(".hide_color").hide();
+  jQuery(".size_"+size).show();
+}
+function add_to_cart(id,size_str_id,color_str_id){
+  jQuery(".addToCartMsg").html('');
+  var size = jQuery("#size_id").val();
+  var color = jQuery("#color_id").val();
+  if(size ==''){
+    jQuery(".addToCartMsg").html('<div class="alert alert-danger" role="alert">Please select size</div>');
+  }else if(color ==''){
+    jQuery(".addToCartMsg").html('<div class="alert alert-danger" role="alert">Please select color</div>');
+  }else{
+    jQuery("#pro_qty").val(jQuery("#qty").val());
+    jQuery("#product_id").val(id);
+    jQuery.ajax({
+      url : "/addtocart",
+      type : "POST",
+      data : jQuery("#addTocartFrm").serialize(),
+      success : function(result){
+        alert(result.msg);
+        var totalPrice = 0;
+        $(".aa-cart-notify").html(result.totalCartItem);
+        if(result.totalCartItem > 0){
+          var html= '<div class="aa-cartbox-summary"><ul>';
+          $.each(result.data, function( key, value ) {
+            totalPrice = parseInt(totalPrice) + (parseInt(value.qty) * parseInt(value.price));
+              html+= '<li><a class="aa-cartbox-img" href="'+value.slug+'"><img src="'+IMAGE_PATH+'/'+value.attr_image+'" alt=""></a><div class="aa-cartbox-info"><h4><a href="'+value.slug+'">'+value.name+'</a></h4><p>'+value.qty+' x '+value.price+' Tk.</p></div></li>';
+            });
+          html+='<li><span class="aa-cartbox-total-title">Total</span><span class="aa-cartbox-total-price">'+totalPrice+' Tk.</span></li></ul><a class="aa-cartbox-checkout aa-primary-btn" href="'+WEB_PATH+'/checkout'+'">Checkout</a></div>';
+          $(".test").html(html);
+        }
+      }
+    });
+  }
+}
+
+function updateQty(pid,paid,size,color,price){
+  jQuery("#size_id").val(size);
+  jQuery("#color_id").val(color);
+  var s = jQuery("#qty"+paid).val();
+  if(s < 1){
+    deleteCart(pid,paid,size,color);
+  }else{
+    jQuery("#qty").val(s);
+    jQuery("#product_id").val(pid);
+    add_to_cart(pid,size,color);
+    jQuery("#total_price"+paid).html(s*price+' Tk.');
+  }
+}
+
+function deleteCart(pid,paid,size,color){
+  jQuery("#size_id").val(size);
+  jQuery("#color_id").val(color);
+  jQuery("#pro_qty").val(0);
+  jQuery("#product_id").val(pid);
+  add_to_cart(pid,size,color);
+  window.location.href = window.location.href;
 }

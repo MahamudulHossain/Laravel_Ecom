@@ -40,49 +40,52 @@
                   @if($product_detail[0]->lead_time != '')
                     <span class="pro_style">Will be available in {{$product_detail[0]->lead_time}}</span>
                   @endif
-                  <div class="aa-price-block">
+                  <div class="aa-price-block pro_detail_price">
                     <span class="aa-product-view-price">Tk. {{$product_detail_attr[$product_detail[0]->id][0]->price}}/-</span>
                     <span class="aa-product-view-price"><del>Tk. {{$product_detail_attr[$product_detail[0]->id][0]->mrp}}/-</del></span>
                   </div>
                   <p>{!!$product_detail[0]->short_desc!!}</p>
-                  <h4>Size</h4>
-                  <div class="aa-prod-view-size">
-                    @foreach($product_detail_attr[$product_detail[0]->id] as $attr)
-                      @if($attr->size !='')
-                      <?php
-                        $sizeArr[] = $attr->size;
-                        $UniqueArr = array_unique($sizeArr);
-                      ?>
-                      @endif
-                    @endforeach
-                    @foreach($UniqueArr as $attr)
-                      @if($attr !='')
-                      <a href="javascript:void(0)">{{$attr}}</a>
-                      @endif
-                    @endforeach
 
-                  </div>
-                  <h4>Color</h4>
-                  <div class="aa-color-tag">
-                    @foreach($product_detail_attr[$product_detail[0]->id] as $attr)
-                      @if($attr->color !='')
-                      <?php
-                      $col='';
-                        $col = strtolower($attr->color);
-                      ?>
-                      <a href="javascript:void(0)" class="aa-color-{{$col}}" onclick=show_color_image("{{asset('storage/media/'.$attr->attr_image)}}")></a>
-                      @endif
-                    @endforeach
-                  </div>
+                  @if($product_detail_attr[$product_detail[0]->id][0]->size_id > 0)
+                      <h4>Size</h4>
+                      <div class="aa-prod-view-size">
+                        @foreach($product_detail_attr[$product_detail[0]->id] as $attr)
+                          @if($attr->size !='')
+                          <?php
+                            $sizeArr[] = $attr->size;
+                            $UniqueArr = array_unique($sizeArr);
+                          ?>
+                          @endif
+                        @endforeach
+                        @foreach($UniqueArr as $attr)
+                          @if($attr !='')
+                          <a href="javascript:void(0)" class="pro_size pro_size_{{$attr}}" onclick="show_product('{{$attr}}')">{{$attr}}</a>
+                          @endif
+                        @endforeach
+                      </div>
+                  @endif
+
+                  @if($product_detail_attr[$product_detail[0]->id][0]->color_id > 0)
+                      <h4>Color</h4>
+                      <div class="aa-color-tag">
+                        @foreach($product_detail_attr[$product_detail[0]->id] as $attr)
+                          @if($attr->color !='')
+                          <?php
+                          $col='';
+                            $col = strtolower($attr->color);
+                          ?>
+                          <a href="javascript:void(0)" class="aa-color-{{$col}} size_{{$attr->size}} hide_color"  onclick=show_color_image("{{asset('storage/media/'.$attr->attr_image)}}","{{$col}}")></a>
+                          @endif
+                        @endforeach
+                      </div>
+                  @endif
+
                   <div class="aa-prod-quantity">
                     <form action="">
-                      <select id="" name="">
-                        <option selected="1" value="0">1</option>
-                        <option value="1">2</option>
-                        <option value="2">3</option>
-                        <option value="3">4</option>
-                        <option value="4">5</option>
-                        <option value="5">6</option>
+                      <select id="qty" name="qty">
+                        @for($i=1;$i<11;$i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
                       </select>
                     </form>
                     <p class="aa-prod-category">
@@ -90,8 +93,9 @@
                     </p>
                   </div>
                   <div class="aa-prod-view-bottom">
-                    <a class="aa-add-to-cart-btn" href="#">Add To Cart</a>
+                    <a class="aa-add-to-cart-btn" href="javascript:void(0)" onclick="add_to_cart('{{$product_detail[0]->id}}','{{$product_detail_attr[$product_detail[0]->id][0]->size_id}}','{{$product_detail_attr[$product_detail[0]->id][0]->color_id}}')">Add To Cart</a>
                   </div>
+                  <div class="addToCartMsg mt-10"></div>
                 </div>
               </div>
             </div>
@@ -188,10 +192,11 @@
 
               @if(isset($related_products[0]))
               @foreach($related_products as $productArr)
+
               <li>
                 <figure>
-                  <a class="aa-product-img" href="{{$related_products[0]->slug}}"><img src="{{asset('storage/media/'.$related_products[0]->image)}}" alt="{{$related_products[0]->slug}}" width='200px' height='300px' ></a>
-                  <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                  <a class="aa-product-img" href="{{$related_products[0]->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$related_products[0]->slug}}" width='200px' height='300px' ></a>
+                  <a class="aa-add-card-btn" href="{{$related_products[0]->slug}}"><span class="fa fa-shopping-cart"></span>Shop Now</a>
                   <figcaption>
                     <h4 class="aa-product-title"><a href="{{$related_products[0]->slug}}">{{$related_products[0]->name}}</a></h4>
                     <span class="aa-product-price">TK. {{$related_products_attr[$productArr->id][0]->price}}/-</span><span class="aa-product-price"><del>TK. {{$related_products_attr[$productArr->id][0]->mrp}}/-</del></span>
@@ -214,6 +219,14 @@
       </div>
     </div>
   </div>
+  <input type="hidden" id="qty"/>
+  <form id="addTocartFrm">
+    @csrf
+    <input type="hidden" id="size_id" name="size_id"/>
+    <input type="hidden" id="color_id" name="color_id"/>
+    <input type="hidden" id="pro_qty" name="pro_qty"/>
+    <input type="hidden" id="product_id" name="product_id"/>
+  </form>
 </section>
 
 
