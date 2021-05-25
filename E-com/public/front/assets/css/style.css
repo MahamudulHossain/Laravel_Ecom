@@ -1901,9 +1901,7 @@ img {
 #aa-product-category .aa-sidebar .aa-sidebar-widget .aa-color-tag .aa-color-cyan {
   background-color: #00ffff;
 }
-#aa-product-category .aa-sidebar .aa-sidebar-widget .aa-color-tag .aa-color-olive {
-  background-color: #00ffff;
-}
+
 #aa-product-category .aa-sidebar .aa-sidebar-widget .aa-color-tag .aa-color-orchid {
   background-color: #da70d6;
 }
@@ -4211,6 +4209,9 @@ img {
 .aa-color-orange{
   background-color: orange;
 }
+.aa-color-olive{
+  background-color: #aad81f;
+}
 .pro_detail_price{
   font-size: 30px;
   color: #f57224;
@@ -4219,4 +4220,10 @@ img {
   font-size: 18px;
   margin-left: 25px;
   color: #f57224;
+}
+.active-color{
+  border : 5px solid white;
+}
+.active_left_cat{
+  color : #ff6666;
 }

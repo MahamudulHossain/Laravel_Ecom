@@ -201,6 +201,10 @@ class FrontController extends Controller
     public function category_page(Request $request,$slug){
             $sort = "";
             $sort_txt = "";
+            $price_lower = "";
+            $price_upper = "";
+            $color_filter = "";
+            $colorFilterArr = [];
             if($request->get('sort_value') !== null){
               $sort = $request->get('sort_value');
             }
@@ -208,7 +212,7 @@ class FrontController extends Controller
             $query = $query->leftJoin('categories','categories.id' ,'=','products.category_id');
             $query = $query->leftJoin('product_attr','product_attr.product_id' ,'=','products.id');
             $query = $query->where(['products.status'=>1]);
-            $query = $query->where(['categories.category_slug'=>$slug]);
+            $query = $query->where('categories.category_slug','=',$slug);
             if($sort == 'name'){
                 $query = $query->orderBy('products.name','ASC');
                 $sort_txt = "Sorted By : Name";
@@ -225,18 +229,45 @@ class FrontController extends Controller
                 $query = $query->orderBy('product_attr.price','DESC');
                 $sort_txt = "Sorted By : Price(High > Low)";
             }
+            if($request->get('price_filter_lower') !== null  && $request->get('price_filter_upper') !== null){
+              $price_lower = $request->get('price_filter_lower');
+              $price_upper = $request->get('price_filter_upper');
+              if($price_lower > 0 || $price_upper >0){
+                $query = $query->whereBetween('product_attr.price',[$price_lower,$price_upper]);
+              }
+            }
+            if($request->get('color_filter') !== null){
+              $color_filter = $request->get('color_filter');
+              $colorFilterArr = explode(":",$color_filter);
+              $colorFilterArr = array_filter($colorFilterArr);
+              $query = $query->where(['product_attr.color_id'=>$color_filter]);
+            }
             $query = $query->distinct()->select('products.*');
             $query = $query->get();
             $result['category_product'] = $query;
       foreach($result['category_product'] as $list1){
-            $query = DB::table('product_attr');
-            $query = $query->leftJoin('sizes','sizes.id' ,'=','product_attr.size_id');
-            $query = $query->leftJoin('colors','colors.id' ,'=','product_attr.color_id');
-            $query = $query->where(['product_attr.product_id'=>$list1->id]);
-            $query = $query->get();
-        $result['category_product_attr'][$list1->id] = $query;
+            $query1 = DB::table('product_attr');
+            $query1 = $query1->leftJoin('sizes','sizes.id' ,'=','product_attr.size_id');
+            $query1 = $query1->leftJoin('colors','colors.id' ,'=','product_attr.color_id');
+            $query1 = $query1->where(['product_attr.product_id'=>$list1->id]);
+            $query1 = $query1->get();
+        $result['category_product_attr'][$list1->id] = $query1;
       }
+      $result['color'] = DB::table('colors')
+                      ->where(['status'=>1])
+                      ->get();
+
+      $result['home_left_category'] = DB::table('categories')
+                    ->where(['status'=>1])
+                    ->get();
       $result['sort_txt'] = $sort_txt ;
+      $result['price_lower'] = $price_lower ;
+      $result['price_upper'] = $price_upper ;
+      $result['color_filter'] = $color_filter;
+      $result['colorFilterArr'] = $colorFilterArr;
+      $result['slug'] = $slug ;
+
+
         return view('front.category',$result);
     }
 }

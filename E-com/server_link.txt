@@ -1,0 +1,8 @@
+In .env file
+SERVER_ADDR = 127.0.0.1
+
+<?php
+$tst = env('SERVER_ADDR');
+?>
+
+{{$tst}}
