@@ -455,3 +455,31 @@ function color_filter(colorID,type){
   }
   jQuery("#sortFrm").submit();
 }
+
+function searchItem(){
+   var search_item = jQuery("#search_item").val();
+   if(search_item.length > 2){
+     window.location.href = "/search/"+search_item;
+   }
+}
+
+jQuery("#regFrm").submit(function(e){
+  e.preventDefault();
+  jQuery(".err_field").html("");
+  jQuery.ajax({
+    url : "/registration_form",
+    type : "POST",
+    data : jQuery("#regFrm").serialize(),
+    success : function(result){
+      if(result.status == 'error'){
+        jQuery.each(result.errors,function(key,val){
+          jQuery("#"+key+"_error").html(val);
+        })
+      }
+      if(result.status == 'success'){
+        alert(result.msg);
+        jQuery("#regFrm")[0].reset();
+      }
+    }
+  });
+});

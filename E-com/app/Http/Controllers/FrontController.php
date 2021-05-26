@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Crypt;
 
 class FrontController extends Controller
 {
@@ -269,5 +271,67 @@ class FrontController extends Controller
 
 
         return view('front.category',$result);
+    }
+
+    public function search(Request $request,$str){
+
+            $query = DB::table('products');
+            $query = $query->leftJoin('categories','categories.id' ,'=','products.category_id');
+            $query = $query->leftJoin('product_attr','product_attr.product_id' ,'=','products.id');
+            $query = $query->where(['products.status'=>1]);
+            $query = $query->where('products.name','like','%'.$str.'%');
+            $query = $query->orwhere('products.model','like','%'.$str.'%');
+            $query = $query->orwhere('products.short_desc','like','%'.$str.'%');
+            $query = $query->orwhere('products.desc','like','%'.$str.'%');
+            $query = $query->orwhere('products.keywords','like','%'.$str.'%');
+            $query = $query->orwhere('products.technical_specification','like','%'.$str.'%');
+            $query = $query->orwhere('products.uses','like','%'.$str.'%');
+            $query = $query->distinct()->select('products.*');
+            $query = $query->get();
+            $result['category_product'] = $query;
+      foreach($result['category_product'] as $list1){
+            $query1 = DB::table('product_attr');
+            $query1 = $query1->leftJoin('sizes','sizes.id' ,'=','product_attr.size_id');
+            $query1 = $query1->leftJoin('colors','colors.id' ,'=','product_attr.color_id');
+            $query1 = $query1->where(['product_attr.product_id'=>$list1->id]);
+            $query1 = $query1->get();
+        $result['category_product_attr'][$list1->id] = $query1;
+      }
+
+        return view('front.search',$result);
+    }
+
+    public function registration(Request $request){
+      $result = [];
+      return view('front.registration',$result);
+    }
+
+    public function registration_form(Request $request){
+      //Laravel 5.0 Basic Validation
+      $valid = Validator::make($request->all(),[
+        "username" => 'required',
+        "email" => 'required|email|unique:customers,email',
+        "mobile" => 'required|digits:11',
+        "password" => 'required|min:8'
+
+      ]);
+
+      if(!$valid->passes()){
+        return response()->json(['status'=>'error','errors'=>$valid->errors()->toArray()]);
+      }else{
+        $dataArr = [
+          "name"=> $request->username,
+          "email"=> $request->email,
+          "mobile"=> $request->mobile,
+          "password"=> Crypt::encrypt($request->password),
+          "status"=> 1,
+          "created_at"=>date('Y-m-d h:i:s'),
+          "updated_at"=>date('Y-m-d h:i:s')
+        ];
+        $query = DB::table('customers')->insert($dataArr);
+        if($query){
+          return response()->json(['status'=>'success','msg'=>'Registration Successful']);
+        }
+      }
     }
 }

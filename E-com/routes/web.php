@@ -18,6 +18,11 @@ Route::get('category/{slug}', [FrontController::class,'category_page']);
 Route::post('addtocart', [FrontController::class,'add_to_cart']);
 Route::get('mycart', [FrontController::class,'mycart']);
 Route::get('/admins', [AdminController::class,'index']);
+Route::get('search/{str}', [FrontController::class,'search']);
+Route::get('/registration', [FrontController::class,'registration']);
+Route::post('registration_form', [FrontController::class, 'registration_form'])->name('registration.registration_form');
+
+
 Route::post('/admins/admin_login_process', [AdminController::class, 'admin_login_process'])->name('admins.login');
 Route::group(['middleware'=>'admin_auth'],function () {
   //Route::get('admins/adminpassHashing', [AdminController::class,'adminpassHashing']);
