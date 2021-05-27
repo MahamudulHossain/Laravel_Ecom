@@ -4234,3 +4234,8 @@ img {
   margin-top: -12px;
   font-weight: bold;
 }
+
+.login_msg{
+  color : red;
+  margin-top: -12px;
+}

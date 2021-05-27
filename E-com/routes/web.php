@@ -21,7 +21,8 @@ Route::get('/admins', [AdminController::class,'index']);
 Route::get('search/{str}', [FrontController::class,'search']);
 Route::get('/registration', [FrontController::class,'registration']);
 Route::post('registration_form', [FrontController::class, 'registration_form'])->name('registration.registration_form');
-
+Route::post('user_login_form', [FrontController::class, 'user_login_form'])->name('userLogIn.user_login_form');
+Route::get('logout', [FrontController::class,'logout']);
 
 Route::post('/admins/admin_login_process', [AdminController::class, 'admin_login_process'])->name('admins.login');
 Route::group(['middleware'=>'admin_auth'],function () {

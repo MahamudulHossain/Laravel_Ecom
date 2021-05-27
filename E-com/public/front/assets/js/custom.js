@@ -483,3 +483,24 @@ jQuery("#regFrm").submit(function(e){
     }
   });
 });
+
+jQuery("#loginFrm").submit(function(e){
+  e.preventDefault();
+  jQuery(".login_msg").html("");
+  jQuery.ajax({
+    url : "/user_login_form",
+    type : "POST",
+    data : jQuery("#loginFrm").serialize(),
+    success : function(result){
+      if(result.status == 'error_email'){
+        jQuery("#email_err").html(result.msg);
+      }
+      if(result.status == 'error_pwd'){
+        jQuery("#pwd_err").html(result.msg);
+      }
+      if(result.status == 'success'){
+        window.location.href = "/";
+      }
+    }
+  });
+});

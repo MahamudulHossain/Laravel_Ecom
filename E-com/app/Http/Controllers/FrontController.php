@@ -302,8 +302,12 @@ class FrontController extends Controller
     }
 
     public function registration(Request $request){
-      $result = [];
-      return view('front.registration',$result);
+      if($request->session()->has('USER_LOGIN_STAT')){
+        return redirect('/');
+      }else{
+        $result = [];
+        return view('front.registration',$result);
+      }
     }
 
     public function registration_form(Request $request){
@@ -334,4 +338,51 @@ class FrontController extends Controller
         }
       }
     }
+
+    // User Login
+
+    public function user_login_form(Request $request){
+
+      $status = "";
+      $msg = "";
+        $queryEmail = DB::table('customers')
+                ->where(['email'=>$request->user_email])
+                ->select('email')
+                ->get();
+        if(isset($queryEmail[0])){
+          $queryPwd = DB::table('customers')
+                  ->where(['email'=>$request->user_email])
+                  ->get();
+          $pass = Crypt::decrypt($queryPwd[0]->password);
+          if($request->user_password == $pass){
+            
+            if($request->rememberme == 'on'){
+              setcookie('USER_EMAIL',$request->user_email,time()+60*60*7);
+              setcookie('USER_PASSWORD',$request->user_password,time()+60*60*7);
+            }else{
+              setcookie('USER_EMAIL',$request->user_email,7);
+              setcookie('USER_PASSWORD',$request->user_password,7);
+            }
+            $request->session()->put('USER_LOGIN_STAT',true);
+            $request->session()->put('USER_NAME',$queryPwd[0]->name);
+            $request->session()->put('USER_LOGIN_ID',$queryPwd[0]->id);
+            $status = "success";
+          }else{
+            $status = "error_pwd";
+            $msg = "Wrong Password";
+          }
+        }else{
+          $status = "error_email";
+          $msg = "Invalid Email Id";
+        }
+        return response()->json(['status'=>$status,'msg'=>$msg]);
+      }
+
+      public function logout(Request $request){
+        $request->session()->forget('USER_LOGIN_STAT');
+        $request->session()->forget('USER_NAME');
+        $request->session()->forget('USER_LOGIN_ID');
+        return redirect('/');
+      }
+
 }

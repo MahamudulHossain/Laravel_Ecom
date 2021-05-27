@@ -278,19 +278,36 @@
 <!-- / Client Brand -->
 
 <!-- Login Modal -->
+<?php
+
+  if(isset($_COOKIE['USER_EMAIL']) && isset($_COOKIE['USER_PASSWORD'])){
+    $userEmail = $_COOKIE['USER_EMAIL'];
+    $userPwd = $_COOKIE['USER_PASSWORD'];
+    $is_rememberme = "checked='checked'";
+  }else{
+    $userEmail = '';
+    $userPwd = '';
+    $is_rememberme = '';
+  }
+
+?>
+
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4>Login or Register</h4>
-        <form class="aa-login-form" action="">
-          <label for="">Username or Email address<span>*</span></label>
-          <input type="text" placeholder="Username or email">
+        <form class="aa-login-form" action="" id="loginFrm">
+          <label for="">Email address<span>*</span></label>
+          <input type="email" placeholder="Email" name="user_email" value="{{$userEmail}}" required>
+          <div id="email_err" class="login_msg"></div>
           <label for="">Password<span>*</span></label>
-          <input type="password" placeholder="Password">
-          <button class="aa-browse-btn" type="submit">Login</button>
-          <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
+          <input type="password" placeholder="Password" name="user_password" value="{{$userPwd}}" required>
+          <div id="pwd_err" class="login_msg"></div>
+          <button class="aa-browse-btn" type="submit" id="loginBtn">Login</button>
+          @csrf
+          <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme" Name="rememberme" {{$is_rememberme}}> Remember me </label>
           <p class="aa-lost-password"><a href="#">Lost your password?</a></p>
           <div class="aa-register-now">
             Don't have an account?<a href="{{url('registration')}}">Register now!</a>
