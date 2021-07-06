@@ -52,6 +52,9 @@
                 </div>
              </form>
            </div>
+           @if(isset($list[0]))
+           <a href="{{url('/checkout')}}" class="aa-cart-view-btn">Proced to Checkout</a>
+           @endif
          </div>
        </div>
      </div>

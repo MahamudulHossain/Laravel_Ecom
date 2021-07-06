@@ -192,18 +192,17 @@
 
               @if(isset($related_products[0]))
               @foreach($related_products as $productArr)
+                <li>
+                  <figure>
+                    <a class="aa-product-img" href="{{$productArr->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$productArr->slug}}" width='200px' height='300px' ></a>
+                    <a class="aa-add-card-btn" href="{{$productArr->slug}}"><span class="fa fa-shopping-cart"></span>Shop Now</a>
+                    <figcaption>
+                      <h4 class="aa-product-title"><a href="{{$productArr->slug}}">{{$productArr->name}}</a></h4>
+                      <span class="aa-product-price">TK. {{$related_products_attr[$productArr->id][0]->price}}/-</span><span class="aa-product-price"><del>TK. {{$related_products_attr[$productArr->id][0]->mrp}}/-</del></span>
 
-              <li>
-                <figure>
-                  <a class="aa-product-img" href="{{$related_products[0]->slug}}"><img src="{{asset('storage/media/'.$productArr->image)}}" alt="{{$related_products[0]->slug}}" width='200px' height='300px' ></a>
-                  <a class="aa-add-card-btn" href="{{$related_products[0]->slug}}"><span class="fa fa-shopping-cart"></span>Shop Now</a>
-                  <figcaption>
-                    <h4 class="aa-product-title"><a href="{{$related_products[0]->slug}}">{{$related_products[0]->name}}</a></h4>
-                    <span class="aa-product-price">TK. {{$related_products_attr[$productArr->id][0]->price}}/-</span><span class="aa-product-price"><del>TK. {{$related_products_attr[$productArr->id][0]->mrp}}/-</del></span>
-
-                  </figcaption>
-                </figure>
-              </li>
+                    </figcaption>
+                  </figure>
+                </li>
               @endforeach
               @else
               <li>

@@ -46,10 +46,8 @@
             <div class="aa-header-top-area">
               <div class="aa-header-top-right">
                 <ul class="aa-head-top-nav-right">
-                  <li><a href="account.html">My Account</a></li>
-                  <li class="hidden-xs"><a href="wishlist.html">Wishlist</a></li>
+                  <li><a href="{{url('/orders_list')}}">My Orders</a></li>
                   <li class="hidden-xs"><a href="{{url('/mycart')}}">My Cart</a></li>
-                  <li class="hidden-xs"><a href="checkout.html">Checkout</a></li>
                   @if(session()->has('USER_LOGIN_STAT'))
                     <li><a href="{{url('/logout')}}">Logout</a></li>
                   @else
@@ -117,7 +115,7 @@
                       </span>
                     </li>
                   </ul>
-                  <a class="aa-cartbox-checkout aa-primary-btn" href="{{url('/checkout')}}">Checkout</a>
+                  <a class="aa-cartbox-checkout aa-primary-btn" href="{{url('/mycart')}}">Cart</a>
                 </div>
                 @endif
               </div>

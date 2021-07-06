@@ -83,4 +83,56 @@ function buildTreeView($arr,$parent,$level=0,$prelevel= -1){
     return $result;
   }
 
+
+  function apply_coupon($coupon_code){
+    $coupon_code = $coupon_code;
+    $totalprice=0;
+    $result = DB::table('coupons')
+                  ->where(['coupon_slug'=>$coupon_code])
+                  ->get();
+
+    if(isset($result[0])){
+
+      if($result[0]->status == 0){
+        $status = "error";
+        $msg = "Coupon Expired";
+      }else{
+        if($result[0]->is_onetime == 1){
+          $status = "error";
+          $msg = "Coupon is already used";
+        }else{
+          $min_order_amt = $result[0]->min_order_amt;
+          $getCartItem = getCartItem();
+          foreach ($getCartItem as $list) {
+            $totalprice = $totalprice + ($list->qty * $list->price);
+          }
+          if($min_order_amt < $totalprice){
+            $status = "success";
+            $msg = "Coupon Applied";
+          }else{
+            $status = "error";
+            $msg = "Cart Minimum Price should be greater or equal to $min_order_amt /-";
+          }
+        }
+      }
+    }else{
+      $status = "error";
+      $msg = "Coupon Doesn't Exist";
+    }
+    $coupon_value=0;
+    if($status == "success"){
+      $value = $result[0]->value;
+      $type = $result[0]->type;
+      $coupon_value=$value;
+      if($type == 'Value'){
+        $totalprice = $totalprice - $value;
+      }
+      if($type == 'Per'){
+        $newPrice = ($totalprice/100)*$value;
+        $coupon_value = floor($newPrice);
+        $totalprice = round($totalprice - $newPrice);
+      }
+    }
+    return json_encode(['status'=>$status,'msg'=>$msg,'totalPrice'=>$totalprice,'coupon_value'=>$coupon_value]);
+  }
 ?>

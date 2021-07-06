@@ -401,7 +401,7 @@ function add_to_cart(id,size_str_id,color_str_id){
             totalPrice = parseInt(totalPrice) + (parseInt(value.qty) * parseInt(value.price));
               html+= '<li><a class="aa-cartbox-img" href="'+value.slug+'"><img src="'+IMAGE_PATH+'/'+value.attr_image+'" alt=""></a><div class="aa-cartbox-info"><h4><a href="'+value.slug+'">'+value.name+'</a></h4><p>'+value.qty+' x '+value.price+' Tk.</p></div></li>';
             });
-          html+='<li><span class="aa-cartbox-total-title">Total</span><span class="aa-cartbox-total-price">'+totalPrice+' Tk.</span></li></ul><a class="aa-cartbox-checkout aa-primary-btn" href="'+WEB_PATH+'/checkout'+'">Checkout</a></div>';
+          html+='<li><span class="aa-cartbox-total-title">Total</span><span class="aa-cartbox-total-price">'+totalPrice+' Tk.</span></li></ul><a class="aa-cartbox-checkout aa-primary-btn" href="'+WEB_PATH+'/mycart'+'">Cart</a></div>';
           $(".test").html(html);
         }
       }
@@ -501,6 +501,44 @@ jQuery("#loginFrm").submit(function(e){
       if(result.status == 'success'){
         window.location.href = "/";
       }
+    }
+  });
+});
+
+function apply_coupon_code(){
+  jQuery("#coupon_msg").html("");
+  var coupon_Code = jQuery("#coupon_Code").val();
+  if(coupon_Code == ""){
+    jQuery("#coupon_msg").html("Please enter a coupon code");
+  }else{
+    jQuery.ajax({
+      url : "/apply_coupon",
+      type : "post",
+      data : "coupon_code="+coupon_Code+"&_token="+jQuery("[name='_token']").val(),
+      success:function(result){
+        jQuery("#coupon_msg").html(result.msg);
+        jQuery("#coupon_row").removeClass('hide');
+        jQuery("#coupon_name").html("<b>"+coupon_Code+"</b>");
+        jQuery("#final_total").html(result.totalPrice+"/-");
+
+      }
+    });
+  }
+}
+
+jQuery("#orderFrm").submit(function(e){
+  e.preventDefault();
+  jQuery.ajax({
+    url : "/order_form",
+    type : "POST",
+    data : jQuery("#orderFrm").serialize(),
+    success : function(result){
+      jQuery("#order_msg").html("Please Wait....");
+      if(result.status == "success"){
+        window.location.href="/order_placed";
+      }
+      jQuery("#order_msg").html(result.msg);
+
     }
   });
 });

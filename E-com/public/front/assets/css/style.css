@@ -2434,6 +2434,7 @@ img {
 #checkout .checkout-area .checkout-left .panel-group .panel-default .panel-heading .panel-title {
   font-size: 18px;
   padding: 20px 15px;
+  color:  #ff6666;
 }
 #checkout .checkout-area .checkout-left .panel-group .panel-default .panel-heading .panel-title a {
   display: block;
@@ -4238,4 +4239,20 @@ img {
 .login_msg{
   color : red;
   margin-top: -12px;
+}
+.pro_at{
+  color: blue;
+}
+#coupon_msg{
+  color: red;
+  font-weight: bold;
+}
+#order_msg{
+  color: blue;
+  font-size: 15px;
+}
+.order_detail{
+  float: right;
+  margin-bottom: 5px;
+  font-weight: bold;
 }

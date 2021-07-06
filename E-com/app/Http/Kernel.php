@@ -46,6 +46,9 @@ class Kernel extends HttpKernel
         'admin_auth' => [
             \App\Http\Middleware\admin_auth::class,
         ],
+        'FrontAuth' => [
+            \App\Http\Middleware\Frontauth::class,
+        ],
     ];
 
     /**

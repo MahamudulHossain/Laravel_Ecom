@@ -355,7 +355,7 @@ class FrontController extends Controller
                   ->get();
           $pass = Crypt::decrypt($queryPwd[0]->password);
           if($request->user_password == $pass){
-            
+
             if($request->rememberme == 'on'){
               setcookie('USER_EMAIL',$request->user_email,time()+60*60*7);
               setcookie('USER_PASSWORD',$request->user_password,time()+60*60*7);
@@ -366,6 +366,16 @@ class FrontController extends Controller
             $request->session()->put('USER_LOGIN_STAT',true);
             $request->session()->put('USER_NAME',$queryPwd[0]->name);
             $request->session()->put('USER_LOGIN_ID',$queryPwd[0]->id);
+
+            if($request->session()->get('USER_TEMP_ID') !== null){
+              $USER_TEMP_ID = $request->session()->get('USER_TEMP_ID');
+              $USER_LOGIN_ID = $request->session()->get('USER_LOGIN_ID');
+              DB::table('carts')
+                ->where(['user_id'=>$USER_TEMP_ID])
+                ->where(['user_type'=>'not-reg'])
+                ->update(['user_id'=>$USER_LOGIN_ID,'user_type'=>'reg']);
+            }
+
             $status = "success";
           }else{
             $status = "error_pwd";
@@ -383,6 +393,125 @@ class FrontController extends Controller
         $request->session()->forget('USER_NAME');
         $request->session()->forget('USER_LOGIN_ID');
         return redirect('/');
+      }
+
+      public function checkout(Request $request){
+
+        $getCartItem = getCartItem();
+        if(isset($getCartItem[0])){
+          if($request->session()->has('USER_LOGIN_ID')){
+            $user_id = $request->session()->get('USER_LOGIN_ID');
+          }else{
+            $user_id = getRandId();
+          }
+          $result['cart_items'] = $getCartItem;
+          $result['user_info'] = DB::table('customers')
+                                    ->where(['id'=>$user_id])
+                                    ->get();
+        }else{
+          return redirect('/');
+        }
+        return view('front.checkout',$result);
+      }
+
+      public function apply_coupon(Request $request){
+        $arr = apply_coupon($request->coupon_code);
+        $arr = json_decode($arr,true);
+        return response()->json(['status'=>$arr['status'],'msg'=>$arr['msg'],'totalPrice'=>$arr['totalPrice'],'coupon_value'=>$arr['coupon_value']]);
+      }
+
+      public function order_form(Request $request){
+        $coupon_val=0;
+        if($request->session()->has('USER_LOGIN_ID')){
+          if($request->coupon_code != ''){
+            $arr = apply_coupon($request->coupon_code);
+            $arr = json_decode($arr,true);
+            if($arr['status'] == 'success'){
+              $coupon_val=$arr['coupon_value'];
+            }else{
+              return response()->json(['status'=>'error','msg'=>'Invalid coupon']);
+            }
+          }
+          $user_id = $request->session()->get('USER_LOGIN_ID');
+          $totalprice=0;
+          $getCartItem = getCartItem();
+          foreach ($getCartItem as $list) {
+            $totalprice = $totalprice + ($list->qty * $list->price);
+          }
+          $totalprice = $totalprice - $coupon_val;
+          $dataArr = [
+            "customers_id"=>$user_id,
+            "name"=> $request->name,
+            "email"=> $request->email,
+            "mobile"=> $request->mobile,
+            "city"=> $request->city,
+            "address"=> $request->address,
+            "coupon_code"=> $request->coupon_code,
+            "coupon_value"=> $coupon_val,
+            "order_status"=> 1,
+            "payment_type"=> $request->optionsRadios,
+            "payment_status"=> 'Pending',
+            "payment_id"=>'',
+            "total_amt"=>$totalprice,
+            "added_on"=>date('Y-m-d h:i:s')
+          ];
+          $insertID = DB::table('orders')->insertGetId($dataArr);
+          if($insertID>0){
+            foreach($getCartItem as $list){
+              $proArr = [
+                "order_id"=>$insertID,
+                "product_id"=>$list->pid,
+                "product_attr_id"=>$list->pro_attr_id,
+                "price"=>$list->price,
+                "qty"=>$list->qty
+              ];
+            $query = DB::table('order_details')->insert($proArr);
+            }
+            $request->session()->put('ORDER_ID',$insertID);
+            DB::table('carts')
+              ->where(['user_id'=>$user_id,'user_type'=>'reg'])
+              ->delete();
+            $status="success";
+            $msg="Order Placed";
+          }else{
+            $status="error";
+            $msg="Something Went Wrong!!";
+          }
+        }else{
+          $status="error";
+          $msg="Please Login To Place Order";
+        }
+        return response()->json(['status'=>$status,'msg'=>$msg]);
+      }
+
+      public function order_placed(Request $request){
+        if($request->session()->has('ORDER_ID')){
+          return view('front.order_placed');
+        }else{
+          return redirect('/');
+        }
+      }
+
+      public function orders_list(Request $request){
+        $result['data'] = DB::table('orders')
+          ->where(['customers_id'=>$request->session()->get('USER_LOGIN_ID')])
+          ->leftJoin('order_status','order_status.id' ,'=','orders.order_status')
+          ->select('orders.*','order_status.status')
+          ->get();
+        return view('front.orders_list',$result);
+      }
+
+      public function order_details(Request $request,$id){
+        $result['data'] = DB::table('order_details')
+                ->leftJoin('orders','orders.id','=','order_details.order_id')
+                ->leftJoin('products','products.id','=','order_details.product_id')
+                ->leftJoin('product_attr','product_attr.id','=','order_details.product_attr_id')
+                ->leftJoin('sizes','sizes.id' ,'=','product_attr.size_id')
+                ->leftJoin('colors','colors.id' ,'=','product_attr.color_id')
+                ->where(['order_id'=>$id])
+                ->select('orders.*','products.name','product_attr.attr_image','colors.color','sizes.size','order_details.price','order_details.qty')
+                ->get();
+        return view('front.order_details',$result);
       }
 
 }

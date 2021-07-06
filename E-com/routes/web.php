@@ -22,7 +22,16 @@ Route::get('search/{str}', [FrontController::class,'search']);
 Route::get('/registration', [FrontController::class,'registration']);
 Route::post('registration_form', [FrontController::class, 'registration_form'])->name('registration.registration_form');
 Route::post('user_login_form', [FrontController::class, 'user_login_form'])->name('userLogIn.user_login_form');
+Route::post('order_form', [FrontController::class, 'order_form'])->name('order.order_form');
+Route::post('/apply_coupon', [FrontController::class,'apply_coupon']);
+Route::get('/order_placed', [FrontController::class,'order_placed']);
 Route::get('logout', [FrontController::class,'logout']);
+Route::get('checkout', [FrontController::class,'checkout']);
+Route::group(['middleware'=>'FrontAuth'],function () {
+  Route::get('/orders_list', [FrontController::class,'orders_list']);
+  Route::get('/order_details/{id}', [FrontController::class,'order_details']);
+
+});
 
 Route::post('/admins/admin_login_process', [AdminController::class, 'admin_login_process'])->name('admins.login');
 Route::group(['middleware'=>'admin_auth'],function () {
