@@ -73,10 +73,6 @@ class FrontController extends Controller
                    ->where(['product_attr.product_id'=>$list1->id])
                    ->get();
        }
-
-          // echo "<pre>";
-          // print_r($result);
-          // die();
       return view('front.index',$result);
     }
 
@@ -109,7 +105,6 @@ class FrontController extends Controller
                   ->where(['product_attr.product_id'=>$list->id])
                   ->get();
       }
-    //  prx($result);
       return view('front.product_detail',$result);
     }
 
@@ -509,8 +504,12 @@ class FrontController extends Controller
                 ->leftJoin('sizes','sizes.id' ,'=','product_attr.size_id')
                 ->leftJoin('colors','colors.id' ,'=','product_attr.color_id')
                 ->where(['order_id'=>$id])
+                ->where(['customers_id'=>$request->session()->get('USER_LOGIN_ID')])
                 ->select('orders.*','products.name','product_attr.attr_image','colors.color','sizes.size','order_details.price','order_details.qty')
                 ->get();
+            if(!isset($result['data']['0'])){
+              return redirect('/');
+            }
         return view('front.order_details',$result);
       }
 

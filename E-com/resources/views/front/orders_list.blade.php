@@ -26,9 +26,9 @@
                     <tbody>
                       @foreach($data as $list)
                         <tr>
-                          <td><a href="{{url('order_details')}}/{{$list->id}}">{{$list->id}}</a></td>
+                          <td class="order_link"><a href="{{url('order_details')}}/{{$list->id}}">{{$list->id}}</a></td>
                           <td>{{$list->status}}</td>
-                          <td>{{$list->coupon_code}}</td>
+                          <td>{{$list->coupon_code}} ( {{$list->coupon_value}}/- )</td>
                           <td>{{$list->payment_status}}</td>
                           <td>{{$list->total_amt}}/-</td>
                           <td>{{$list->added_on}}</td>

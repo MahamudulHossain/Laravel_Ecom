@@ -51,6 +51,10 @@
                           <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                       </li>
+                      <li class="@yield('order_active')">
+                          <a href="{{url('admins/orders')}}">
+                              <i class="fa fa-picture-o"></i>Orders</a>
+                      </li>
                       <li class="@yield('banner_active')">
                           <a href="{{url('admins/banner')}}">
                               <i class="fa fa-picture-o"></i>Banner</a>
@@ -102,6 +106,10 @@
                       <li class="@yield('dashboard_active')">
                           <a class="js-arrow" href="{{url('admins/dashboard')}}">
                               <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                      </li>
+                      <li class="@yield('order_active')">
+                          <a href="{{url('admins/orders')}}">
+                              <i class="fa fa-picture-o"></i>Orders</a>
                       </li>
                       <li class="@yield('banner_active')">
                           <a href="{{url('admins/banner')}}">

@@ -14649,3 +14649,10 @@ section {
 .vue-lists ul, .vue-lists ol {
     padding-left: 30px;
 }
+
+.admin_img{
+  width: 20%;
+}
+.order_status{
+  float: left;
+}

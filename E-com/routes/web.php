@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\OrderController;
 
 Route::get('/', [FrontController::class,'index']);
 Route::get('product/{slug}', [FrontController::class,'product_detail']);
@@ -97,4 +98,7 @@ Route::group(['middleware'=>'admin_auth'],function () {
   Route::get('admins/customer', [CustomerController::class,'index']);
   Route::get('admins/customer/show_customer/{id}', [CustomerController::class,'show']);
   Route::get('admins/customer/manage_customer/status/{status}/{id}', [CustomerController::class,'manage_customer_status']);
+  Route::get('admins/orders', [OrderController::class,'index']);
+  Route::get('admins/order_details/{id}', [OrderController::class,'detail']);
+
 });

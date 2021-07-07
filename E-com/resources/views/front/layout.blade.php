@@ -46,7 +46,9 @@
             <div class="aa-header-top-area">
               <div class="aa-header-top-right">
                 <ul class="aa-head-top-nav-right">
+                @if(session()->has('USER_LOGIN_ID'))
                   <li><a href="{{url('/orders_list')}}">My Orders</a></li>
+                @endif
                   <li class="hidden-xs"><a href="{{url('/mycart')}}">My Cart</a></li>
                   @if(session()->has('USER_LOGIN_STAT'))
                     <li><a href="{{url('/logout')}}">Logout</a></li>
