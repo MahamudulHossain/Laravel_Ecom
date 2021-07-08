@@ -100,5 +100,6 @@ Route::group(['middleware'=>'admin_auth'],function () {
   Route::get('admins/customer/manage_customer/status/{status}/{id}', [CustomerController::class,'manage_customer_status']);
   Route::get('admins/orders', [OrderController::class,'index']);
   Route::get('admins/order_details/{id}', [OrderController::class,'detail']);
+  Route::get('admin/order_status_update/{val}/{id}', [OrderController::class,'order_status_update']);
 
 });

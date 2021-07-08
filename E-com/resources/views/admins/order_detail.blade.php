@@ -21,8 +21,7 @@
           </div>
       </div>
       <div class="cart-view-table">
-        <form action="">
-          <div class="table-responsive">
+          <div class="table-responsive bgAttr">
              <table class="table">
                <thead>
                  <tr>
@@ -66,12 +65,23 @@
                </tbody>
              </table>
            </div>
-        </form>
       </div>
     </div>
   </div>
+</div>
 
-
-
+<div class="bgAttr">
+  <b>Order Status</b>
+  <select class="form-control" id="order_status" onchange="orderStatus({{$data[0]->id}})">
+    <?php
+    foreach($order_status as $list){
+      if($data[0]->status == $list->status){
+        echo "<option value='$list->id' selected>$list->status</option>";
+      }else{
+        echo "<option value='$list->id'>$list->status</option>";
+      }
+    }
+    ?>
+  </select>
 </div>
 @endsection

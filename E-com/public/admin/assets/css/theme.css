@@ -14656,3 +14656,7 @@ section {
 .order_status{
   float: left;
 }
+.bgAttr{
+  background-color: white;
+  padding: 30px;
+}

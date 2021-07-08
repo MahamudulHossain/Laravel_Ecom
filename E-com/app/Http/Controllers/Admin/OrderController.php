@@ -13,8 +13,7 @@ class OrderController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-   public function index()
-   {
+   public function index(){
        $query = DB::table('orders');
        $query = $query->leftJoin('order_status','order_status.id' ,'=','orders.order_status');
        $query = $query->select('orders.*','order_status.status');
@@ -23,8 +22,7 @@ class OrderController extends Controller
        $result['data'] =  $query;
        return view('admins.orders',$result);
    }
-   public function detail($id)
-   {
+   public function detail($id){
      $result['data'] = DB::table('order_details')
              ->leftJoin('orders','orders.id','=','order_details.order_id')
              ->leftJoin('order_status','order_status.id' ,'=','orders.order_status')
@@ -35,6 +33,16 @@ class OrderController extends Controller
              ->where(['order_id'=>$id])
              ->select('orders.*','orders.name as customar','order_status.status','products.name','product_attr.attr_image','colors.color','sizes.size','order_details.price','order_details.qty')
              ->get();
+
+      $result['order_status'] = DB::table('order_status')
+                                  ->get();
        return view('admins.order_detail',$result);
+   }
+
+   public function order_status_update($value,$id){
+          DB::table('orders')
+              ->where(['id'=>$id])
+              ->update(['order_status'=>$value]);
+          return redirect('/admins/order_details/'.$id);    
    }
 }

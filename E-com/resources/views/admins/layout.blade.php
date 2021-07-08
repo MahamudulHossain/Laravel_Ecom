@@ -53,7 +53,7 @@
                       </li>
                       <li class="@yield('order_active')">
                           <a href="{{url('admins/orders')}}">
-                              <i class="fa fa-picture-o"></i>Orders</a>
+                              <i class="fa fa-first-order"></i>Orders</a>
                       </li>
                       <li class="@yield('banner_active')">
                           <a href="{{url('admins/banner')}}">
@@ -109,7 +109,7 @@
                       </li>
                       <li class="@yield('order_active')">
                           <a href="{{url('admins/orders')}}">
-                              <i class="fa fa-picture-o"></i>Orders</a>
+                              <i class="fa fa-first-order"></i>Orders</a>
                       </li>
                       <li class="@yield('banner_active')">
                           <a href="{{url('admins/banner')}}">

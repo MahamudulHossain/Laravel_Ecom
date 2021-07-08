@@ -1650,3 +1650,12 @@
   }
 
 })(jQuery);
+
+
+function orderStatus(id){
+  var check = confirm("Do you really want to update?");
+  if(check == true){
+    var val = jQuery('#order_status').val();
+    window.location.href="/admin/order_status_update/"+val+"/"+id;
+  }
+}
