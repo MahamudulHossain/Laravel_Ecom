@@ -4259,3 +4259,11 @@ img {
 .order_link{
   background: #75e2c9;
 }
+.review_msg{
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+}
+.red{
+  color: red;
+}

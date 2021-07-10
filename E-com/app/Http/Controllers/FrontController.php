@@ -105,6 +105,14 @@ class FrontController extends Controller
                   ->where(['product_attr.product_id'=>$list->id])
                   ->get();
       }
+      $result['review'] = DB::table('review')
+                          ->leftJoin('products','products.id' ,'=','review.product_id')
+                          ->leftJoin('customers','customers.id' ,'=','review.customer_id')
+                          ->where(['review.product_id'=>$result['product_detail'][0]->id])
+                          ->where(['review.status'=>1])
+                          ->select('products.name','customers.name as cusnam','review.rating','review.review','review.added_on')
+                          ->get();
+      //prx($result['review']);
       return view('front.product_detail',$result);
     }
 
@@ -511,6 +519,27 @@ class FrontController extends Controller
               return redirect('/');
             }
         return view('front.order_details',$result);
+      }
+
+      public function product_review(Request $request){
+        if($request->session()->has('USER_LOGIN_ID')){
+          $user_id = $request->session()->get('USER_LOGIN_ID');
+          $dataArr = [
+            "rating"=> $request->rating,
+            "review"=> $request->review,
+            "product_id"=> $request->product_id,
+            "status"=> 0,
+            "customer_id"=>$user_id,
+            "added_on"=>date('Y-m-d h:i:s')
+          ];
+          $query = DB::table('review')->insert($dataArr);
+          $status = "success";
+          $msg = "Thank you for your review. Your review has sent to admin for approval.";
+        }else{
+            $status = "error";
+            $msg = "Please Login to give rating and review";
+          }
+          return response()->json(['status'=>$status,'msg'=>$msg]);
       }
 
 }

@@ -122,56 +122,48 @@
               </div>
               <div class="tab-pane fade " id="review">
                <div class="aa-product-review-area">
-                 <h4>2 Reviews for T-Shirt</h4>
-                 <ul class="aa-review-nav">
-                    <li>
-                      <div class="media">
-                        <div class="media-left">
-                          <a href="#">
-                            <img class="media-object" src="" alt="girl image">
-                          </a>
-                        </div>
-                        <div class="media-body">
-                          <h4 class="media-heading"><strong>Marla Jobs</strong> - <span>March 26, 2016</span></h4>
-                          <div class="aa-product-rating">
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star-o"></span>
+                @if(isset($review[0]))
+                 <h4>{{count($review)}} Review(s) for {{$review[0]->name}}</h4>
+                   <ul class="aa-review-nav">
+                     @foreach($review as $list)
+                      <li>
+                        <div class="media">
+                          <div class="media-body">
+                            <h4 class="media-heading"><strong>{{$list->cusnam}}</strong> - <span>{{customDate($list->added_on)}}</span></h4>
+                            <div class="aa-product-rating">
+                              <span>{{$list->rating}}</span>
+                            </div>
+                            <p>{{$list->review}}</p>
                           </div>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                         </div>
-                      </div>
-                    </li>
-                 </ul>
+                      </li>
+                      @endforeach
+                   </ul>
+                @else
+                  <h4 class="red">No Review So Far!!</h4>
+                @endif
                  <h4>Add a review</h4>
-                 <div class="aa-your-rating">
-                   <p>Your Rating</p>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                 </div>
-                 <!-- review form -->
-                 <form action="" class="aa-review-form">
-                    <div class="form-group">
-                      <label for="message">Your Review</label>
-                      <textarea class="form-control" rows="3" id="message"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                      <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
-                    </div>
-
-                    <button type="submit" class="btn btn-default aa-review-submit">Submit</button>
+                 <form id="frmReview" class="aa-review-form">
+                     <div class="aa-your-rating">
+                       <label for="message">Your Rating</label>
+                       <select class="form-control" name="rating" required>
+                         <option value="">Select your rating</option>
+                         <option>Not Satisfied</option>
+                         <option>Fair</option>
+                         <option>Good</option>
+                         <option>Excellent</option>
+                       </select>
+                     </div>
+                     <div class="form-group">
+                        <label for="message">Your Review</label>
+                        <textarea class="form-control" rows="3" name="review" required></textarea>
+                     </div>
+                     <input type="hidden" name="product_id" value="{{$product_detail[0]->id}}">
+                     <button type="submit" class="btn btn-default aa-review-submit">Submit</button>
+                     @csrf
                  </form>
                </div>
+               <div class="review_msg"></div>
               </div>
               <!-- technical_specification -->
               <div class="techWrnUs tab-pane fade " id="techSpc">
@@ -226,6 +218,49 @@
     <input type="hidden" id="pro_qty" name="pro_qty"/>
     <input type="hidden" id="product_id" name="product_id"/>
   </form>
+
+
+  <!-- Login Modal -->
+  <?php
+
+    if(isset($_COOKIE['USER_EMAIL']) && isset($_COOKIE['USER_PASSWORD'])){
+      $userEmail = $_COOKIE['USER_EMAIL'];
+      $userPwd = $_COOKIE['USER_PASSWORD'];
+      $is_rememberme = "checked='checked'";
+    }else{
+      $userEmail = '';
+      $userPwd = '';
+      $is_rememberme = '';
+    }
+
+  ?>
+
+  <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4>Login or Register</h4>
+          <form class="aa-login-form" action="" id="loginFrm">
+            <label for="">Email address<span>*</span></label>
+            <input type="email" placeholder="Email" name="user_email" value="{{$userEmail}}" required>
+            <div id="email_err" class="login_msg"></div>
+            <label for="">Password<span>*</span></label>
+            <input type="password" placeholder="Password" name="user_password" value="{{$userPwd}}" required>
+            <div id="pwd_err" class="login_msg"></div>
+            <button class="aa-browse-btn" type="submit" id="loginBtn">Login</button>
+            @csrf
+            <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme" Name="rememberme" {{$is_rememberme}}> Remember me </label>
+            <p class="aa-lost-password"><a href="#">Lost your password?</a></p>
+            <div class="aa-register-now">
+              Don't have an account?<a href="{{url('registration')}}">Register now!</a>
+            </div>
+          </form>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  
 </section>
 
 

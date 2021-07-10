@@ -542,3 +542,23 @@ jQuery("#orderFrm").submit(function(e){
     }
   });
 });
+
+jQuery("#frmReview").submit(function(e){
+  e.preventDefault();
+  jQuery.ajax({
+    url : "/product_review",
+    type : "POST",
+    data : jQuery("#frmReview").serialize(),
+    success : function(result){
+      if(result.status == "success"){
+        jQuery(".review_msg").html(result.msg);
+         setInterval(function(){
+           window.location.href = window.location.href;
+         },3000);
+      }
+      if(result.status == "error"){
+        jQuery(".review_msg").html(result.msg);
+      }
+    }
+  });
+});

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ReviewsController;
 
 Route::get('/', [FrontController::class,'index']);
 Route::get('product/{slug}', [FrontController::class,'product_detail']);
@@ -28,6 +29,7 @@ Route::post('/apply_coupon', [FrontController::class,'apply_coupon']);
 Route::get('/order_placed', [FrontController::class,'order_placed']);
 Route::get('logout', [FrontController::class,'logout']);
 Route::get('checkout', [FrontController::class,'checkout']);
+Route::post('/product_review', [FrontController::class,'product_review']);
 Route::group(['middleware'=>'FrontAuth'],function () {
   Route::get('/orders_list', [FrontController::class,'orders_list']);
   Route::get('/order_details/{id}', [FrontController::class,'order_details']);
@@ -101,5 +103,9 @@ Route::group(['middleware'=>'admin_auth'],function () {
   Route::get('admins/orders', [OrderController::class,'index']);
   Route::get('admins/order_details/{id}', [OrderController::class,'detail']);
   Route::get('admin/order_status_update/{val}/{id}', [OrderController::class,'order_status_update']);
+
+  Route::get('admins/reviews', [ReviewsController::class,'index']);
+  Route::get('admins/reviews/manage_reviews/{status}/{id}', [ReviewsController::class,'manage_reviews_status']);
+  Route::get('admins/reviews/delete/{id}',[ReviewsController::class,'delete']);
 
 });

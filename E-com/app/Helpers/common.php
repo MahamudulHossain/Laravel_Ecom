@@ -135,4 +135,11 @@ function buildTreeView($arr,$parent,$level=0,$prelevel= -1){
     }
     return json_encode(['status'=>$status,'msg'=>$msg,'totalPrice'=>$totalprice,'coupon_value'=>$coupon_value]);
   }
+
+  function customDate($date){
+    if($date !=''){
+      $date = strtotime($date);
+      return date('d-m-Y h:i',$date);
+    }
+  }
 ?>
