@@ -42,7 +42,7 @@ class OrderController extends Controller
    public function order_status_update($value,$id){
           DB::table('orders')
               ->where(['id'=>$id])
-              ->update(['order_status'=>$value]);
-          return redirect('/admins/order_details/'.$id);    
+              ->update(['order_status'=>$value,'payment_status'=>'Paid']);
+          return redirect('/admins/order_details/'.$id);
    }
 }

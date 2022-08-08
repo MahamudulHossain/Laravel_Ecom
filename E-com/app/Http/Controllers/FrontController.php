@@ -330,7 +330,7 @@ class FrontController extends Controller
           "name"=> $request->username,
           "email"=> $request->email,
           "mobile"=> $request->mobile,
-          "password"=> Crypt::encrypt($request->password),
+          "password"=> md5($request->password),
           "status"=> 1,
           "created_at"=>date('Y-m-d h:i:s'),
           "updated_at"=>date('Y-m-d h:i:s')
@@ -356,9 +356,9 @@ class FrontController extends Controller
           $queryPwd = DB::table('customers')
                   ->where(['email'=>$request->user_email])
                   ->get();
-          $pass = Crypt::decrypt($queryPwd[0]->password);
-          if($request->user_password == $pass){
 
+           $pass = md5($request->user_password);
+          if($queryPwd[0]->password == $pass){
             if($request->rememberme == 'on'){
               setcookie('USER_EMAIL',$request->user_email,time()+60*60*7);
               setcookie('USER_PASSWORD',$request->user_password,time()+60*60*7);
@@ -378,7 +378,6 @@ class FrontController extends Controller
                 ->where(['user_type'=>'not-reg'])
                 ->update(['user_id'=>$USER_LOGIN_ID,'user_type'=>'reg']);
             }
-
             $status = "success";
           }else{
             $status = "error_pwd";

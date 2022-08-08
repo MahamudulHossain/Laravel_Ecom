@@ -18,16 +18,14 @@
                    @if(!isset($user_info[0]))
                    <div class="panel-body">
                          <input type="button" value="Login" class="aa-browse-btn" data-toggle="modal" data-target="#login-modal"></a><br><br>
-                            OR
                    </div>
-                   @endif
+                   @else
                    <div class="panel panel-default aa-checkout-billaddress">
                      <div class="panel-heading">
                        <h4 class="panel-title">
                            Shippping Address
                        </h4>
                      </div>
-                     @if(isset($user_info[0]))
                        <div class="panel-body">
                         <div class="row">
                            <div class="col-md-12">
@@ -57,40 +55,6 @@
                            <div class="col-md-12">
                              <div class="aa-checkout-single-bill">
                                <textarea cols="8" rows="3" name="address" placeholder="Address*" required>{{$user_info[0]->address}}</textarea>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-                       @else
-                       <div class="panel-body">
-                        <div class="row">
-                           <div class="col-md-12">
-                             <div class="aa-checkout-single-bill">
-                               <input type="text" placeholder="Name*" name="name" required>
-                             </div>
-                           </div>
-                         </div>
-                         <div class="row">
-                           <div class="col-md-4">
-                             <div class="aa-checkout-single-bill">
-                               <input type="email" placeholder="Email Address*" name="email" required>
-                             </div>
-                           </div>
-                           <div class="col-md-4">
-                             <div class="aa-checkout-single-bill">
-                               <input type="text" placeholder="Mobile*"name="mobile" required>
-                             </div>
-                           </div>
-                           <div class="col-md-4">
-                             <div class="aa-checkout-single-bill">
-                               <input type="text" placeholder="City*" name="city" required>
-                             </div>
-                           </div>
-                         </div>
-                         <div class="row">
-                           <div class="col-md-12">
-                             <div class="aa-checkout-single-bill">
-                               <textarea cols="8" rows="3" name="address" placeholder="Address*" required></textarea>
                              </div>
                            </div>
                          </div>
@@ -158,7 +122,7 @@
                  <h4>Payment Method</h4>
                  <div class="aa-payment-method">
                    <label for="cashdelivery"><input type="radio" id="cashdelivery" name="optionsRadios" value="COD" checked> Cash on Delivery </label>
-                   <label for="paypal"><input type="radio" id="paypal" name="optionsRadios" value="PAYPAL"> Via Paypal </label>
+                   <label for="paypal"><input type="radio" id="paypal" name="optionsRadios" value="PAYPAL" disabled> Via Paypal </label>
                    <input type="submit" value="Place Order" class="aa-browse-btn" id="orderBtn">
                  </div>
                </div>
